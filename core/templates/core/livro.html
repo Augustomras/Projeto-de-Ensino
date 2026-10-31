@@ -1,0 +1,132 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Adicionar livro | Koobtil{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <!-- BOTÃO VOLTAR -->
+    <a href="{% url 'core:explorar' %}" class="btn-back">
+        <i data-lucide="arrow-left"></i>
+        <span>Voltar</span>
+    </a>
+
+    <!-- CABEÇALHO -->
+    <header class="form-header">
+        <div class="icon-badge">
+            <i data-lucide="plus-square"></i>
+        </div>
+
+        <div>
+            <h1>Adicionar livro</h1>
+            <p class="subtitle">
+                Compartilhe uma nova leitura com a comunidade.
+            </p>
+        </div>
+    </header>
+
+    <!-- FORMULÁRIO -->
+    <form class="add-book-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- CAPA -->
+        <div class="upload-box">
+            <div class="upload-icon-wrapper">
+                <i data-lucide="upload"></i>
+            </div>
+
+            <div class="upload-text">
+                <strong>Adicionar capa</strong>
+                <span>PNG, JPG até 5MB</span>
+            </div>
+
+            <input
+                type="file"
+                id="cover-upload"
+                name="capa"
+                accept="image/png, image/jpeg"
+                class="hidden-input"
+            >
+        </div>
+
+        <!-- TÍTULO -->
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input
+                type="text"
+                id="title"
+                name="titulo"
+                placeholder="Ex: Norwegian Wood"
+                required
+            >
+        </div>
+
+        <!-- AUTOR -->
+        <div class="form-group">
+            <label for="author">Autor</label>
+            <input
+                type="text"
+                id="author"
+                name="autor"
+                placeholder="Ex: Haruki Murakami"
+                required
+            >
+        </div>
+
+        <!-- PAÍS DE ORIGEM -->
+        <div class="form-group">
+            <label for="country">País de origem</label>
+
+            <div class="select-wrapper">
+                <select id="country" name="pais_origem" required>
+                    <option value="Japão">Japão</option>
+                    <option value="Brasil">Brasil</option>
+                    <option value="Estados Unidos">Estados Unidos</option>
+                    <option value="França">França</option>
+                    <option value="Coreia do Sul">Coreia do Sul</option>
+                </select>
+
+                <i data-lucide="chevron-down" class="select-icon"></i>
+            </div>
+        </div>
+
+        <!-- DESCRIÇÃO -->
+        <div class="form-group">
+            <label for="description">Descrição</label>
+
+            <textarea
+                id="description"
+                name="descricao"
+                rows="4"
+                placeholder="Sobre o que é? Por que vale a pena ler?"
+                required
+            ></textarea>
+        </div>
+
+        <!-- NÍVEL DE DIFICULDADE -->
+        <div class="form-group">
+            <label for="level">Nível de dificuldade</label>
+
+            <div class="select-wrapper">
+                <select id="level" name="nivel_dificuldade" required>
+                    <option value="iniciante">Iniciante</option>
+                    <option value="intermediario" selected>Intermediário</option>
+                    <option value="avancado">Avançado</option>
+                </select>
+
+                <i data-lucide="chevron-down" class="select-icon"></i>
+            </div>
+        </div>
+
+        <!-- PUBLICAR -->
+        <button type="submit" class="btn-submit">
+            Publicar livro
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

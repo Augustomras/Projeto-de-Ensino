@@ -1,0 +1,123 @@
+
+{% extends 'base.html' %}
+
+{% block title %}{{ livro.titulo }} | Koobtil{% endblock %}
+
+{% block content %}
+
+<!-- BANNER SUPERIOR -->
+<div class="book-detail-hero">
+    <div class="hero-top-bar">
+        <a href="{% url 'core:explorar' %}" class="btn-circle">
+            <i data-lucide="arrow-left"></i>
+        </a>
+
+        <div class="top-actions">
+            <button type="button" class="btn-circle">
+                <i data-lucide="share-2"></i>
+            </button>
+
+            <button type="button" class="btn-circle">
+                <i data-lucide="bookmark"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="book-detail-container">
+
+    <!-- CABEÇALHO DO LIVRO -->
+    <section class="book-header-section">
+
+        <div class="book-cover-wrapper">
+            <div class="cover cover-purple book-large-cover">
+                <div class="cover-content">
+                    <h4>{{ livro.titulo }}</h4>
+                    <p>{{ livro.autor }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="book-header-info">
+
+            <span class="country-tag">
+                {{ livro.pais_origem|upper }}
+            </span>
+
+            <h1 class="book-main-title">{{ livro.titulo }}</h1>
+
+            <p class="book-author-sub">
+                por {{ livro.autor }}
+            </p>
+
+            <div class="book-meta-row">
+
+                <span class="level-badge level-intermediate">
+                    {{ livro.get_nivel_dificuldade_display }}
+                </span>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- DESCRIÇÃO -->
+    <p class="book-synopsis">
+        {{ livro.descricao }}
+    </p>
+
+    <!-- AÇÕES -->
+    <div class="action-buttons-row">
+        <button type="button" class="btn-primary-lg">
+            Começar a ler
+        </button>
+
+        <button type="button" class="btn-circle-lg">
+            <i data-lucide="sparkles"></i>
+        </button>
+    </div>
+
+    <!-- AVALIAÇÃO -->
+    <section class="user-review-box">
+
+        <h3>Sua avaliação</h3>
+
+        <p class="subtext">
+            Conte aos outros leitores o que achou
+        </p>
+
+        <div class="star-rating-picker">
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+        </div>
+
+        <textarea
+            placeholder="Escreva uma resenha (opcional)..."
+            rows="3"
+        ></textarea>
+
+        <button type="button" class="btn-submit-review" disabled>
+            Publicar resenha
+        </button>
+
+    </section>
+
+    <!-- RESENHAS DA COMUNIDADE -->
+    <section class="section">
+
+        <h3 class="section-title">
+            Resenhas da comunidade
+        </h3>
+
+        <div id="community-reviews-container">
+            <!-- As resenhas serão exibidas posteriormente pelo Django. -->
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

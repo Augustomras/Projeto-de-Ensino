@@ -30,7 +30,7 @@
                 </div>
             </div>
 
-            <button class="btn-read-today">Ler hoje</button>
+            <a href="{% url 'core:explorar' %}" class="btn-read-today">Ler hoje</a>
         </div>
 
         <!-- LEITORES ATIVOS -->
@@ -42,13 +42,15 @@
 
             <div class="readers-list">
                 {% for leitor in leitores %}
-                    <div class="reader-item">
-                        <div class="avatar bg-purple">
-                            {{ leitor.username|slice:":2"|upper }}
-                        </div>
+                    <a href="{% url 'core:perfil_leitor' leitor.id %}" class="reader-link">
+                        <div class="reader-item">
+                            <div class="avatar bg-purple">
+                                {{ leitor.username|slice:":2"|upper }}
+                            </div>
 
-                        <span>{{ leitor.username }}</span>
-                    </div>
+                            <span>{{ leitor.username }}</span>
+                        </div>
+                    </a>
                 {% empty %}
                     <p>Nenhum leitor cadastrado ainda.</p>
                 {% endfor %}
@@ -63,12 +65,13 @@
                     Populares esta semana
                 </h3>
 
-                <a href="#" class="link-see-all">Explorar</a>
+                <a href="{% url 'core:explorar' %}" class="link-see-all">Explorar</a>
             </div>
 
             <div class="books-grid">
 
                 {% for livro in livros %}
+                    <a href="{% url 'core:detalhe_livro' livro.id %}" class="book-link">
 
                     <div class="book-card">
 
@@ -85,6 +88,7 @@
                         </div>
 
                     </div>
+                    </a>
 
                 {% empty %}
 
@@ -113,7 +117,9 @@
 
                             <div>
                                 <div class="user-name">
-                                    <strong>{{ resenha.usuario.username }}</strong>
+                                    <a href="{% url 'core:perfil_leitor' resenha.usuario.id %}" class="user-name">
+                                        <strong>{{ resenha.usuario.username }}</strong>
+                                    </a>
                                 </div>
 
                                 <span class="time-ago">
@@ -131,9 +137,9 @@
                         <div class="mini-cover cover-purple"></div>
 
                         <div>
-                            <h4 class="mini-book-title">
+                            <a href="{% url 'core:detalhe_livro' resenha.livro.id %}" class="mini-book-title">
                                 {{ resenha.livro.titulo }}
-                            </h4>
+                            </a>
 
                             <p class="mini-book-author">
                                 {{ resenha.livro.autor }}
@@ -163,7 +169,7 @@
 
                     <button class="btn-translate">
                         <i data-lucide="languages"></i>
-                        Traduzir para português
+                        Traduzir
                     </button>
 
                 </div>
@@ -189,6 +195,7 @@
             <div class="recommended-list">
 
                 {% for livro in livros %}
+                    <a href="{% url 'core:detalhe_livro' livro.id %}">
 
                     <div class="rec-item">
 
@@ -203,6 +210,7 @@
                         </div>
 
                     </div>
+                </a>
 
                 {% empty %}
 

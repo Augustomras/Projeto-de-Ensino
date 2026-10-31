@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
 from .models import Livro, Resenha
 
@@ -13,4 +13,37 @@ def home(request):
         'livros': livros,
         'resenhas': resenhas,
         'leitores': leitores
+    })
+
+def explorar(request):
+    livros = Livro.objects.all()
+
+    return render(request, 'core/explorar.html', {
+        'livros': livros
+    })
+
+def perfil(request):
+    livros = Livro.objects.all()
+
+    return render(request, 'core/perfil.html', {
+        'livros': livros
+    })
+
+def adicionar_livro(request):
+    return render(request, 'core/livro.html')
+
+def detalhe_livro(request, livro_id):
+    livro = get_object_or_404(Livro, id=livro_id)
+
+    return render(request, 'core/detalhe_livro.html', {
+        'livro': livro
+    })
+
+def perfil_leitor(request, usuario_id):
+    Usuario = get_user_model()
+    leitor = get_object_or_404(Usuario, id=usuario_id)
+
+    return render(request, 'core/perfil.html', {
+        'leitor': leitor,
+        'livros': Livro.objects.all()
     })
