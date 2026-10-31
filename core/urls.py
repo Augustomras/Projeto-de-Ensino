@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('explorar/', views.explorar, name='explorar'),
     path('perfil/', views.perfil, name='perfil'),
+    path('perfil/<int:usuario_id>/', views.perfil_leitor, name='perfil_leitor'),
     path('adicionar-livro/', views.adicionar_livro, name='adicionar_livro'),
     path('livro/<int:livro_id>/', views.detalhe_livro, name='detalhe_livro'),
 ]

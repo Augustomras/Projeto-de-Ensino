@@ -1,35 +1,37 @@
 <aside class="sidebar">
     <div class="sidebar-header">
-        <div class="logo">
-            <span class="logo-mark">K</span>
-            <span class="logo-text">Koobtil</span>
-        </div>
+        
+        <a href="{% url 'core:home' %}" class="logo-link">
+            <div class="logo">
+                <span class="logo-mark">K</span>
+                <span class="logo-text">Koobtil</span>
+            </div>
+        </a>
     </div>
 
     <nav class="sidebar-nav">
-        <a href="#" class="nav-item active">
+        <a href="{% url 'core:home' %}"
+           class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
             <i data-lucide="house"></i>
             <span>Início</span>
         </a>
 
-        <a href="#" class="nav-item">
+        <a href="{% url 'core:explorar' %}"
+           class="nav-item {% if request.resolver_match.url_name == 'explorar' %}active{% endif %}">
             <i data-lucide="compass"></i>
             <span>Explorar</span>
         </a>
 
-        <a href="#" class="nav-item">
-            <i data-lucide="languages"></i>
-            <span>Traduzir</span>
-        </a>
-
-        <a href="#" class="nav-item">
+        <a href="{% url 'core:perfil' %}"
+           class="nav-item {% if request.resolver_match.url_name == 'perfil' %}active{% endif %}">
             <i data-lucide="user-round"></i>
             <span>Perfil</span>
         </a>
     </nav>
 
     <div class="sidebar-footer">
-        <a href="#" class="add-book-btn">
+        <a href="{% url 'core:adicionar_livro' %}"
+           class="add-book-btn">
             <i data-lucide="plus"></i>
             <span>Adicionar livro</span>
         </a>

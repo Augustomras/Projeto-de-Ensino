@@ -4,7 +4,7 @@
 {% block title %}Perfil | Koobtil{% endblock %}
 
 {% block header %}
-    {% with page_title="Meu perfil" %}
+    {% with page_title=leitor.username %}
         {% include 'fragments/header.html' %}
     {% endwith %}
 {% endblock %}
@@ -15,15 +15,15 @@
 
     <!-- CARD DO PERFIL -->
     <section class="profile-card">
-        <button class="btn-settings" type="button">
-            <i data-lucide="settings"></i>
-        </button>
 
         <div class="profile-header-info">
-            <div class="avatar avatar-profile bg-purple">ML</div>
+
+            <div class="avatar avatar-profile bg-purple">
+                {{ leitor.username|slice:":2"|upper }}
+            </div>
 
             <div class="profile-details">
-                <h2>Mariana Lopes</h2>
+                <h2>{{ leitor.username }}</h2>
 
                 <p class="profile-location">
                     <i data-lucide="map-pin"></i>
@@ -31,10 +31,10 @@
                 </p>
 
                 <p class="profile-bio">
-                    Leitora curiosa de literatura japonesa e ficção contemporânea.
-                    Praticando inglês e francês 📚 🌏
+                    Leitor(a) da comunidade Koobtil.
                 </p>
             </div>
+
         </div>
 
         <!-- ESTATÍSTICAS -->
@@ -42,23 +42,24 @@
 
             <div class="stat-box">
                 <i data-lucide="book-open"></i>
-                <strong class="stat-number">47</strong>
+                <strong class="stat-number">0</strong>
                 <span class="stat-label">LIVROS</span>
             </div>
 
             <div class="stat-box">
                 <i data-lucide="star"></i>
-                <strong class="stat-number">23</strong>
+                <strong class="stat-number">0</strong>
                 <span class="stat-label">RESENHAS</span>
             </div>
 
             <div class="stat-box">
                 <i data-lucide="award"></i>
-                <strong class="stat-number">9</strong>
+                <strong class="stat-number">0</strong>
                 <span class="stat-label">CONQUISTAS</span>
             </div>
 
         </div>
+
     </section>
 
     <!-- ABAS DO PERFIL -->
@@ -68,7 +69,7 @@
         <button class="tab-btn" type="button">Resenhas</button>
     </nav>
 
-    <!-- LIVROS FAVORITOS -->
+    <!-- LIVROS -->
     <section class="profile-books-grid">
 
         {% for livro in livros %}

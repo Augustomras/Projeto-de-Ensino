@@ -38,3 +38,12 @@ def detalhe_livro(request, livro_id):
     return render(request, 'core/detalhe_livro.html', {
         'livro': livro
     })
+
+def perfil_leitor(request, usuario_id):
+    Usuario = get_user_model()
+    leitor = get_object_or_404(Usuario, id=usuario_id)
+
+    return render(request, 'core/perfil.html', {
+        'leitor': leitor,
+        'livros': Livro.objects.all()
+    })

@@ -1606,3 +1606,28 @@ body {
 .book-detail-hero {
   display: none;
 }
+
+/* LINKS DOS CARDS DE LIVROS */
+a.book-link,
+a.book-link:link,
+a.book-link:visited,
+a.book-link:hover,
+a.book-link:active,
+a.book-link:focus {
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+}
+
+a.book-link {
+    display: block;
+}
+
+a.book-link .book-card {
+    color: var(--text-main);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}

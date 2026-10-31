@@ -87,15 +87,13 @@
 
             {% for livro in livros %}
 
-                <div class="book-card">
+                <a href="{% url 'core:detalhe_livro' livro.id %}" class="book-card">
 
                     <div class="cover cover-purple">
-
                         <div class="cover-content">
                             <h4>{{ livro.titulo }}</h4>
                             <p>{{ livro.autor }}</p>
                         </div>
-
                     </div>
 
                     <div class="book-info">
@@ -114,7 +112,7 @@
 
                     </div>
 
-                </div>
+                </a>
 
             {% empty %}
 
