@@ -1,0 +1,234 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Início | Koobtil{% endblock %}
+
+{% block header %}
+    {% with page_title="Seu feed" %}
+        {% include 'fragments/header.html' %}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+
+<div class="content-grid">
+
+    <!-- COLUNA ESQUERDA -->
+    <div class="feed-column">
+
+        <!-- BANNER DE SEQUÊNCIA -->
+        <div class="streak-banner">
+            <div class="streak-left">
+                <div class="streak-icon">
+                    <i data-lucide="flame"></i>
+                </div>
+
+                <div class="streak-info">
+                    <span class="subtext">SEQUÊNCIA ATUAL</span>
+                    <h2>12 dias lendo</h2>
+                    <p>Continue assim! Próxima meta: 15 dias</p>
+                </div>
+            </div>
+
+            <button class="btn-read-today">Ler hoje</button>
+        </div>
+
+        <!-- LEITORES ATIVOS -->
+        <section class="section">
+            <div class="section-header">
+                <h3>Leitores ativos</h3>
+                <a href="#" class="link-see-all">Ver todos</a>
+            </div>
+
+            <div class="readers-list">
+                {% for leitor in leitores %}
+                    <div class="reader-item">
+                        <div class="avatar bg-purple">
+                            {{ leitor.username|slice:":2"|upper }}
+                        </div>
+
+                        <span>{{ leitor.username }}</span>
+                    </div>
+                {% empty %}
+                    <p>Nenhum leitor cadastrado ainda.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- LIVROS POPULARES -->
+        <section class="section">
+            <div class="section-header">
+                <h3>
+                    <i data-lucide="trending-up" class="inline-icon"></i>
+                    Populares esta semana
+                </h3>
+
+                <a href="#" class="link-see-all">Explorar</a>
+            </div>
+
+            <div class="books-grid">
+
+                {% for livro in livros %}
+
+                    <div class="book-card">
+
+                        <div class="cover cover-purple">
+                            <div class="cover-content">
+                                <h4>{{ livro.titulo }}</h4>
+                                <p>{{ livro.autor }}</p>
+                            </div>
+                        </div>
+
+                        <div class="book-info">
+                            <strong class="title">{{ livro.titulo }}</strong>
+                            <span class="author">{{ livro.autor }}</span>
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <p>Nenhum livro cadastrado ainda.</p>
+
+                {% endfor %}
+
+            </div>
+        </section>
+
+        <!-- RESENHAS RECENTES -->
+        <section class="section">
+            <div class="section-header">
+                <h3>Resenhas recentes</h3>
+            </div>
+
+            {% for resenha in resenhas %}
+
+                <div class="review-card">
+
+                    <div class="review-header">
+                        <div class="user-info">
+                            <div class="avatar bg-magenta">
+                                {{ resenha.usuario.username|slice:":2"|upper }}
+                            </div>
+
+                            <div>
+                                <div class="user-name">
+                                    <strong>{{ resenha.usuario.username }}</strong>
+                                </div>
+
+                                <span class="time-ago">
+                                    {{ resenha.data_publicacao|date:"d/m/Y H:i" }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <button class="btn-more">
+                            <i data-lucide="more-horizontal"></i>
+                        </button>
+                    </div>
+
+                    <div class="review-book-box">
+                        <div class="mini-cover cover-purple"></div>
+
+                        <div>
+                            <h4 class="mini-book-title">
+                                {{ resenha.livro.titulo }}
+                            </h4>
+
+                            <p class="mini-book-author">
+                                {{ resenha.livro.autor }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="review-rating">
+                        <div class="stars">
+                            {% for numero in "12345" %}
+                                {% if forloop.counter <= resenha.avaliacao %}
+                                    <i data-lucide="star" class="filled"></i>
+                                {% else %}
+                                    <i data-lucide="star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <span class="lang-tag">
+                            {{ resenha.idioma|upper }}
+                        </span>
+                    </div>
+
+                    <p class="review-text">
+                        {{ resenha.texto }}
+                    </p>
+
+                    <button class="btn-translate">
+                        <i data-lucide="languages"></i>
+                        Traduzir para português
+                    </button>
+
+                </div>
+
+            {% empty %}
+
+                <p>Nenhuma resenha cadastrada ainda.</p>
+
+            {% endfor %}
+
+        </section>
+
+    </div>
+
+    <!-- COLUNA DIREITA -->
+    <div class="widgets-column">
+
+        <!-- RECOMENDADO PARA VOCÊ -->
+        <div class="widget-card">
+            <h3>Recomendado para você</h3>
+            <p class="widget-sub">Baseado nas suas leituras</p>
+
+            <div class="recommended-list">
+
+                {% for livro in livros %}
+
+                    <div class="rec-item">
+
+                        <div class="mini-cover cover-gold flex-shrink-0">
+                            <span>{{ livro.titulo }}</span>
+                            <small>{{ livro.autor }}</small>
+                        </div>
+
+                        <div class="rec-info">
+                            <h4>{{ livro.titulo }}</h4>
+                            <p>{{ livro.autor }}</p>
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <p>Nenhuma recomendação disponível.</p>
+
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <!-- DESAFIO MENSAL -->
+        <div class="widget-card challenge-card">
+            <h3>Desafio mensal</h3>
+            <p class="widget-sub">Leia 3 livros de continentes diferentes</p>
+
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 66%;"></div>
+            </div>
+
+            <p class="challenge-status">
+                2 de 3 livros · faltam 11 dias
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
