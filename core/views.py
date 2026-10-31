@@ -14,3 +14,10 @@ def home(request):
         'resenhas': resenhas,
         'leitores': leitores
     })
+
+def explorar(request):
+    livros = Livro.objects.all()
+
+    return render(request, 'core/explorar.html', {
+        'livros': livros
+    })

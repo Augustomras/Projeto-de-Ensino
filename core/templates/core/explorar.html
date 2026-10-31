@@ -1,0 +1,164 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Explorar | Koobtil{% endblock %}
+
+{% block header %}
+    {% with page_title="Explorar livros" %}
+        {% include 'fragments/header.html' %}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+
+<div class="explore-page">
+
+    <!-- APRESENTAÇÃO E BUSCA -->
+    <section class="section">
+
+        <div class="section-header">
+            <div>
+                <h3>Descubra novas histórias</h3>
+                <p class="widget-sub">
+                    Explore livros de diferentes países e idiomas.
+                </p>
+            </div>
+        </div>
+
+        <!-- BARRA DE BUSCA -->
+        <div class="explore-search-bar">
+            <i data-lucide="search"></i>
+
+            <input
+                type="text"
+                placeholder="Buscar título, autor ou país..."
+            >
+
+            <button class="btn-filter" type="button">
+                <i data-lucide="sliders-horizontal"></i>
+            </button>
+        </div>
+
+        <!-- FILTROS -->
+        <div class="filter-tags">
+            <button class="tag active" type="button">Todos</button>
+            <button class="tag" type="button">Iniciante</button>
+            <button class="tag" type="button">Intermediário</button>
+            <button class="tag" type="button">Avançado</button>
+            <button class="tag" type="button">Português</button>
+            <button class="tag" type="button">Inglês</button>
+            <button class="tag" type="button">Japonês</button>
+        </div>
+
+    </section>
+
+    <!-- DESTAQUE DO MÊS -->
+    <section class="featured-banner">
+
+        <div class="featured-content">
+
+            <span class="subtext">DESTAQUE DO MÊS</span>
+
+            <h2>Le Petit Prince</h2>
+
+            <p class="author-tag">
+                FR · Antoine de Saint-Exupéry
+            </p>
+
+            <button class="btn-view-book" type="button">
+                Ver livro →
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- LIVROS CADASTRADOS -->
+    <section class="section">
+
+        <div class="section-header">
+            <h3>Livros para descobrir</h3>
+            <span class="widget-sub">
+                {{ livros|length }} livros
+            </span>
+        </div>
+
+        <div class="explore-books-grid">
+
+            {% for livro in livros %}
+
+                <div class="book-card">
+
+                    <div class="cover cover-purple">
+
+                        <div class="cover-content">
+                            <h4>{{ livro.titulo }}</h4>
+                            <p>{{ livro.autor }}</p>
+                        </div>
+
+                    </div>
+
+                    <div class="book-info">
+
+                        <strong class="title">
+                            {{ livro.titulo }}
+                        </strong>
+
+                        <span class="author">
+                            {{ livro.autor }}
+                        </span>
+
+                        <span class="country-badge">
+                            {{ livro.pais_origem }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <p>Nenhum livro cadastrado ainda.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <!-- EXPLORAR POR PAÍS -->
+    <section class="section">
+
+        <div class="section-header">
+            <h3>Explore por país</h3>
+        </div>
+
+        <div class="countries-grid">
+
+            <div class="country-card">
+                <span class="country-code-lg">BR</span>
+                <strong class="country-name">Brasil</strong>
+            </div>
+
+            <div class="country-card">
+                <span class="country-code-lg">JP</span>
+                <strong class="country-name">Japão</strong>
+            </div>
+
+            <div class="country-card">
+                <span class="country-code-lg">US</span>
+                <strong class="country-name">Estados Unidos</strong>
+            </div>
+
+            <div class="country-card">
+                <span class="country-code-lg">FR</span>
+                <strong class="country-name">França</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

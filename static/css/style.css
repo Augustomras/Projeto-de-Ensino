@@ -102,10 +102,11 @@ body {
 .main-content {
   margin-left: 240px;
   flex: 1;
-  padding: 32px 40px;
+  width: calc(100% - 240px);
   max-width: 1540px;
-  width: 100%;
+  padding: 32px 40px;
   margin-right: auto;
+  margin-left: 240px;
 }
 
 /* CABEÇALHO */
@@ -660,4 +661,274 @@ body {
 
 .add-book-btn:active {
   transform: translateY(0);
+}
+
+/* ==========================================================================
+   NOVOS ESTILOS: PÁGINA EXPLORAR LIVROS
+   ========================================================================== */
+
+.full-width {
+  max-width: 1000px;
+}
+
+.explore-header {
+  margin-bottom: 24px;
+}
+
+.explore-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.explore-header .subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* BARRA DE PESQUISA GRANDE */
+.explore-search-bar {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 12px 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  gap: 12px;
+  margin-bottom: 16px;
+  color: var(--text-muted);
+}
+
+.explore-search-bar input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.btn-filter {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+/* FILTROS / TAGS */
+.filter-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tag.active, .tag:hover {
+  background: var(--primary-purple);
+  color: white;
+}
+
+.tag-flag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+}
+
+.flag-icon {
+  font-weight: 800;
+  opacity: 0.7;
+}
+
+/* BANNER DESTAQUE DO MÊS */
+.featured-banner {
+  background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+  color: white;
+  padding: 32px;
+  border-radius: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.3);
+}
+
+.featured-content .subtext {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+.featured-content h2 {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 4px 0;
+}
+
+.author-tag {
+  font-size: 13px;
+  opacity: 0.9;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.flag-sm {
+  font-size: 10px;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.btn-view-book {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+/* GRID DE CARDS DE EXPLORAR */
+.explore-books-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.explore-card {
+  background: white;
+  border-radius: 20px;
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.explore-card .mini-cover {
+  width: 90px;
+  height: 120px;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  align-items: flex-end;
+  color: white;
+  flex-shrink: 0;
+}
+
+.card-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.card-top h4 {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.country-badge {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.card-details .author {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.rating-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.rating-score {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.level-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.level-beginner { background: #dcfce7; color: #16a34a; }
+.level-intermediate { background: #fef9c3; color: #ca8a04; }
+.level-advanced { background: #f3e8ff; color: #9333ea; }
+
+/* SEÇÃO PAÍSES */
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.countries-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.country-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.country-code-lg {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.country-name {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.country-books {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* CENTRALIZAR CONTEÚDO DA PÁGINA EXPLORAR */
+.explore-page {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
 }
