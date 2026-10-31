@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
 from .models import Livro, Resenha
 
@@ -31,3 +31,10 @@ def perfil(request):
 
 def adicionar_livro(request):
     return render(request, 'core/livro.html')
+
+def detalhe_livro(request, livro_id):
+    livro = get_object_or_404(Livro, id=livro_id)
+
+    return render(request, 'core/detalhe_livro.html', {
+        'livro': livro
+    })
