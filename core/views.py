@@ -28,3 +28,6 @@ def perfil(request):
     return render(request, 'core/perfil.html', {
         'livros': livros
     })
+
+def adicionar_livro(request):
+    return render(request, 'core/livro.html')

@@ -1085,3 +1085,248 @@ body {
   height: 240px;
   cursor: pointer;
 }
+
+/* ==========================================================================
+   NOVOS ESTILOS: PÁGINA ADICIONAR LIVRO
+   ========================================================================== */
+
+.justify-center {
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 640px;
+}
+
+/* BOTÃO VOLTAR */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  transition: color 0.2s;
+}
+
+.btn-back:hover {
+  color: var(--primary-purple);
+}
+
+.btn-back i {
+  width: 18px;
+  height: 18px;
+}
+
+/* CABEÇALHO DO FORMULÁRIO */
+.form-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.icon-badge {
+  width: 48px;
+  height: 48px;
+  background: var(--primary-gradient);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
+}
+
+.form-header h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.form-header .subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* FORMULÁRIO */
+.add-book-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* UPLOAD BOX */
+.upload-box {
+  border: 2px dashed #e2e8f0;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.upload-box:hover {
+  border-color: var(--primary-purple);
+}
+
+.upload-icon-wrapper {
+  width: 80px;
+  height: 100px;
+  background: #f8fafc;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+.upload-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.upload-text strong {
+  font-size: 15px;
+  color: var(--text-main);
+}
+
+.upload-text span {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.hidden-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* CAMPOS DO FORMULÁRIO */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  font-family: inherit;
+  font-size: 14px;
+  background: white;
+  color: var(--text-main);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--primary-purple);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+/* SELECT CUSTOMIZADO */
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.select-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--text-muted);
+  width: 18px;
+  height: 18px;
+}
+
+/* OPÇÕES DE NÍVEL */
+.level-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.level-btn {
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 12px;
+  border-radius: 16px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-beginner { color: #16a34a; }
+.btn-intermediate { color: #ca8a04; }
+.btn-advanced { color: #9333ea; }
+
+.level-btn.active {
+  border-color: var(--primary-purple);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+.btn-intermediate.active {
+  background: #fefce8;
+  border-color: #eab308;
+}
+
+/* BOTÃO PUBLICAR */
+.btn-submit {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 12px;
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
+  transition: transform 0.2s;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+}
