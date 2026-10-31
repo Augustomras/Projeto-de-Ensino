@@ -1,0 +1,89 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Perfil | Koobtil{% endblock %}
+
+{% block header %}
+    {% with page_title="Meu perfil" %}
+        {% include 'fragments/header.html' %}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+
+<main class="main-content full-width">
+
+    <!-- CARD DO PERFIL -->
+    <section class="profile-card">
+        <button class="btn-settings" type="button">
+            <i data-lucide="settings"></i>
+        </button>
+
+        <div class="profile-header-info">
+            <div class="avatar avatar-profile bg-purple">ML</div>
+
+            <div class="profile-details">
+                <h2>Mariana Lopes</h2>
+
+                <p class="profile-location">
+                    <i data-lucide="map-pin"></i>
+                    <span class="flag-code">BR</span> Brasil
+                </p>
+
+                <p class="profile-bio">
+                    Leitora curiosa de literatura japonesa e ficção contemporânea.
+                    Praticando inglês e francês 📚 🌏
+                </p>
+            </div>
+        </div>
+
+        <!-- ESTATÍSTICAS -->
+        <div class="profile-stats">
+
+            <div class="stat-box">
+                <i data-lucide="book-open"></i>
+                <strong class="stat-number">47</strong>
+                <span class="stat-label">LIVROS</span>
+            </div>
+
+            <div class="stat-box">
+                <i data-lucide="star"></i>
+                <strong class="stat-number">23</strong>
+                <span class="stat-label">RESENHAS</span>
+            </div>
+
+            <div class="stat-box">
+                <i data-lucide="award"></i>
+                <strong class="stat-number">9</strong>
+                <span class="stat-label">CONQUISTAS</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ABAS DO PERFIL -->
+    <nav class="profile-tabs">
+        <button class="tab-btn active" type="button">Favoritos</button>
+        <button class="tab-btn" type="button">Lendo</button>
+        <button class="tab-btn" type="button">Resenhas</button>
+    </nav>
+
+    <!-- LIVROS FAVORITOS -->
+    <section class="profile-books-grid">
+
+        {% for livro in livros %}
+            <div class="profile-book-card cover cover-purple">
+                <div class="cover-content">
+                    <h4>{{ livro.titulo }}</h4>
+                    <p>{{ livro.autor }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <p>Nenhum livro encontrado.</p>
+        {% endfor %}
+
+    </section>
+
+</main>
+
+{% endblock %}

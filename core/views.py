@@ -21,3 +21,10 @@ def explorar(request):
     return render(request, 'core/explorar.html', {
         'livros': livros
     })
+
+def perfil(request):
+    livros = Livro.objects.all()
+
+    return render(request, 'core/perfil.html', {
+        'livros': livros
+    })
