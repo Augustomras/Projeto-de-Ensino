@@ -1,0 +1,127 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Koobtil - Crie sua conta</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="auth-body">
+
+    <div class="auth-container">
+
+        <!-- BOTÃO VOLTAR -->
+        <a href="{% url 'core:landing' %}" class="btn-back">
+            <i data-lucide="arrow-left"></i>
+            <span>Voltar</span>
+        </a>
+
+        <!-- LOGO -->
+        <div class="auth-logo-wrapper">
+            <a href="{% url 'core:landing' %}" class="logo-link">
+                <div class="logo">
+                    <span class="logo-mark">K</span>
+                    <span class="logo-text">Koobtil</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- CABEÇALHO -->
+        <header class="auth-header">
+            <h1>Crie sua conta</h1>
+            <p class="subtitle">Comece a explorar resenhas e leitores em segundos.</p>
+        </header>
+
+        <!-- FORMULÁRIO VISUAL -->
+        <form class="auth-form" onsubmit="event.preventDefault();">
+
+            <!-- NOME -->
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <div class="input-field">
+                    <i data-lucide="user"></i>
+                    <input type="text" id="name" placeholder="Como podemos te chamar?">
+                </div>
+            </div>
+
+            <!-- E-MAIL -->
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <div class="input-field">
+                    <i data-lucide="mail"></i>
+                    <input type="email" id="email" placeholder="voce@email.com">
+                </div>
+            </div>
+
+            <!-- PAÍS -->
+            <div class="form-group">
+                <label for="country">País</label>
+                <div class="input-field select-field">
+                    <i data-lucide="globe"></i>
+
+                    <select id="country">
+                        <option value="BR">BR Brasil</option>
+                        <option value="JP">JP Japão</option>
+                        <option value="US">US EUA</option>
+                        <option value="FR">FR França</option>
+                        <option value="KR">KR Coreia do Sul</option>
+                    </select>
+
+                    <i data-lucide="chevron-down" class="chevron"></i>
+                </div>
+            </div>
+
+            <!-- SENHA -->
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <div class="input-field">
+                    <i data-lucide="lock"></i>
+                    <input type="password" id="password" placeholder="Mínimo 8 caracteres">
+                </div>
+            </div>
+
+            <!-- TERMOS DE USO -->
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms">
+
+                <label for="terms">
+                    Aceito os <a href="#">Termos de Uso</a> e a
+                    <a href="#">Política de Privacidade</a>.
+                </label>
+            </div>
+
+            <!-- BOTÃO -->
+            <button type="submit" class="btn-primary-auth">
+                Criar conta
+            </button>
+
+        </form>
+
+        <!-- FOOTER -->
+        <p class="auth-footer-text">
+            Já tem conta? <a href="{% url 'core:login' %}">Entrar</a>
+        </p>
+
+    </div>
+
+    <!-- INICIALIZAÇÃO DOS ÍCONES -->
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Koobtil - Leia o mundo, em qualquer idioma</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="landing-body">
+
+    <div class="landing-container">
+
+        <!-- LOGO DO TOPO -->
+        <header class="landing-header">
+            <div class="brand">
+                <div class="avatar-brand">K</div>
+                <span>Koobtil</span>
+            </div>
+        </header>
+
+        <!-- CONTEÚDO CENTRAL -->
+        <main class="landing-content">
+
+            <!-- BADGE BETA -->
+            <div class="beta-badge">
+                <i data-lucide="sparkles"></i>
+                <span>Beta — novo</span>
+            </div>
+
+            <!-- TÍTULO PRINCIPAL -->
+            <h1 class="landing-title">
+                Leia o <span class="highlight-box">mundo</span>, em<br>
+                qualquer idioma.
+            </h1>
+
+            <!-- SUBTÍTULO -->
+            <p class="landing-description">
+                Conecte-se com leitores de diversos países, compartilhe resenhas,<br>
+                descubra novos livros e pratique outros idiomas por meio da literatura.
+            </p>
+            <!-- ESTATÍSTICAS -->
+            <div class="landing-stats">
+
+                <div class="landing-stat-card">
+                    <i data-lucide="book-open"></i>
+                    <strong>12k</strong>
+                    <span>LIVROS</span>
+                </div>
+
+                <div class="landing-stat-card">
+                    <i data-lucide="globe"></i>
+                    <strong>2</strong>
+                    <span>PAÍSES</span>
+                </div>
+
+                <div class="landing-stat-card">
+                    <i data-lucide="sparkles"></i>
+                    <strong>98%</strong>
+                    <span>ADORAM</span>
+                </div>
+
+            </div>
+
+            <!-- BOTÕES DE AÇÃO -->
+            <div class="landing-actions">
+
+                <a href="{% url 'core:cadastro' %}" class="btn-primary-landing">
+                    Criar minha conta
+                </a>
+
+                <a href="{% url 'core:login' %}" class="btn-secondary-landing">
+                    Já tenho conta
+                </a>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- INICIALIZAÇÃO DOS ÍCONES -->
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>
