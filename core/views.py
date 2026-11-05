@@ -47,3 +47,12 @@ def perfil_leitor(request, usuario_id):
         'leitor': leitor,
         'livros': Livro.objects.all()
     })
+
+def landing(request):
+    return render(request, 'core/landing.html')
+
+def cadastro(request):
+    return render(request, 'core/cadastro.html')
+
+def login_usuario(request):
+    return render(request, 'core/login.html')

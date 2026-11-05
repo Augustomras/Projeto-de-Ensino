@@ -1,0 +1,127 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Koobtil - Bem-vindo de volta</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="auth-body">
+
+    <div class="auth-container">
+
+        <!-- BOTÃO VOLTAR -->
+        <a href="{% url 'core:landing' %}" class="btn-back">
+            <i data-lucide="arrow-left"></i>
+            <span>Voltar</span>
+        </a>
+
+        <!-- LOGO -->
+        <div class="auth-logo-wrapper">
+            <a href="{% url 'core:landing' %}" class="logo-link">
+                <div class="logo">
+                    <span class="logo-mark">K</span>
+                    <span class="logo-text">Koobtil</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- CABEÇALHO -->
+        <header class="auth-header">
+            <h1>Bem-vindo de volta</h1>
+            <p class="subtitle">Continue lendo o mundo. Entre na sua conta.</p>
+        </header>
+
+        <!-- FORMULÁRIO -->
+        <form class="auth-form" onsubmit="event.preventDefault();">
+
+            <!-- E-MAIL -->
+            <div class="form-group">
+                <label for="email">E-mail</label>
+
+                <div class="input-field">
+                    <i data-lucide="mail"></i>
+                    <input type="email" id="email" placeholder="voce@email.com">
+                </div>
+            </div>
+
+            <!-- SENHA -->
+            <div class="form-group">
+                <label for="password">Senha</label>
+
+                <div class="input-field password-field">
+                    <i data-lucide="lock"></i>
+                    <input type="password" id="password" placeholder="••••••••">
+
+                    <button type="button" class="btn-toggle-password" tabindex="-1">
+                        <i data-lucide="eye" class="eye-icon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- OPÇÕES DE LOGIN -->
+            <div class="login-options-row">
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Lembrar de mim</label>
+                </div>
+
+                <a href="#" class="forgot-link">Esqueci a senha</a>
+
+            </div>
+
+            <!-- BOTÃO ENTRAR -->
+            <button type="submit" class="btn-primary-auth">
+                Entrar
+            </button>
+
+            <!-- DIVISOR SOCIAL -->
+            <div class="social-divider">
+                <span>ou continue com</span>
+            </div>
+
+            <!-- BOTÕES SOCIAIS -->
+            <div class="social-buttons-grid">
+
+                <button type="button" class="btn-social">
+                    <span>Google</span>
+                </button>
+
+                <button type="button" class="btn-social">
+                    <span>Apple</span>
+                </button>
+
+            </div>
+
+        </form>
+
+        <!-- FOOTER -->
+        <p class="auth-footer-text">
+            Novo por aqui?
+            <a href="{% url 'core:cadastro' %}">Criar conta</a>
+        </p>
+
+    </div>
+
+    <!-- INICIALIZAÇÃO DOS ÍCONES -->
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>
