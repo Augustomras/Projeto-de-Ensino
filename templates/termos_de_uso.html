@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termos de Uso | Koobtil</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="documento-body">
+
+    <header class="documento-header">
+
+        <a href="{% url 'core:cadastro' %}" class="documento-voltar">
+            Voltar ao cadastro
+        </a>
+    </header>
+
+    <main class="documento-container">
+        <section class="documento-card">
+
+            <span class="documento-tag">DOCUMENTAÇÃO</span>
+
+            <h1>Termos de Uso</h1>
+
+            <p class="documento-descricao">
+                Bem-vindo ao Koobtil! Leia atentamente as condições
+                para utilizar nossa plataforma.
+            </p>
+
+            <h2>1. Sobre a plataforma</h2>
+            <p>
+                O Koobtil é uma plataforma voltada à leitura,
+                descoberta de livros e compartilhamento de resenhas.
+            </p>
+
+            <h2>2. Cadastro e conta</h2>
+            <p>
+                O usuário deve fornecer informações verdadeiras
+                e manter a segurança de sua conta.
+            </p>
+
+            <h2>3. Publicações</h2>
+            <p>
+                As resenhas devem respeitar os demais usuários.
+                Não são permitidos conteúdos ofensivos, discriminatórios
+                ou que violem direitos de terceiros.
+            </p>
+
+            <h2>4. Responsabilidades</h2>
+            <p>
+                O usuário é responsável pelo conteúdo que publica
+                e pelo uso adequado da plataforma.
+            </p>
+
+            <h2>5. Alterações</h2>
+            <p>
+                Estes termos poderão ser atualizados quando necessário.
+                A versão vigente ficará disponível nesta página.
+            </p>
+
+        </section>
+    </main>
+
+    <footer class="documento-footer">
+        © 2026 Koobtil — Todos os direitos reservados.
+    </footer>
+
+</body>
+</html>

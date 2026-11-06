@@ -1,0 +1,369 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Koobtil - Crie sua conta</title>
+
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- LUCIDE ICONS -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        .password-field {
+            position: relative;
+        }
+
+        .btn-toggle-password {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            color: #777;
+        }
+
+        .btn-primary-auth {
+            transition: background 0.3s, opacity 0.3s, transform 0.2s;
+        }
+
+        .btn-primary-auth:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary-auth.is-ready {
+            background: #1F2160;
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .password-error {
+            color: #b91c1c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="auth-body">
+
+    <div class="auth-container">
+
+        <!-- BOTÃO VOLTAR -->
+        <a href="{% url 'core:landing' %}" class="btn-back">
+            <i data-lucide="arrow-left"></i>
+            <span>Voltar</span>
+        </a>
+
+        <!-- LOGO -->
+        <div class="auth-logo-wrapper">
+            <a href="{% url 'core:landing' %}" class="logo-link">
+                <div class="logo">
+                    <span class="logo-mark">K</span>
+                    <span class="logo-text">Koobtil</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- CABEÇALHO -->
+        <header class="auth-header">
+            <h1>Crie sua conta</h1>
+            <p class="subtitle">
+                Comece a explorar resenhas e leitores em segundos.
+            </p>
+        </header>
+
+        <!-- FORMULÁRIO -->
+        <form class="auth-form" method="post" id="form-cadastro">
+
+            {% csrf_token %}
+
+            <!-- ERROS DO DJANGO -->
+            {% if form.errors %}
+                <div style="color: #b91c1c; background: #fee2e2; padding: 12px 16px; border-radius: 12px; font-size: 13px; margin-bottom: 15px;">
+
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+
+                </div>
+            {% endif %}
+
+            <!-- NOME COMPLETO -->
+            <div class="form-group">
+                <label for="nome_completo">Nome completo</label>
+
+                <div class="input-field">
+                    <i data-lucide="user"></i>
+
+                    <input
+                        type="text"
+                        id="nome_completo"
+                        name="nome_completo"
+                        placeholder="Digite seu nome completo"
+                        value="{{ form.nome_completo.value|default:'' }}"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- NOME DE USUÁRIO -->
+            <div class="form-group">
+                <label for="username">Nome de usuário</label>
+
+                <div class="input-field">
+                    <i data-lucide="at-sign"></i>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Escolha seu nome de usuário"
+                        value="{{ form.username.value|default:'' }}"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- E-MAIL -->
+            <div class="form-group">
+                <label for="email">E-mail</label>
+
+                <div class="input-field">
+                    <i data-lucide="mail"></i>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="voce@email.com"
+                        value="{{ form.email.value|default:'' }}"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- PAÍS -->
+            <div class="form-group">
+                <label for="pais">País</label>
+
+                <div class="input-field select-field">
+                    <i data-lucide="globe"></i>
+
+                    <select id="pais" name="pais" required>
+                        <option value="BR" {% if form.pais.value == 'BR' or not form.pais.value %}selected{% endif %}>Brasil</option>
+                        <option value="PT" {% if form.pais.value == 'PT' %}selected{% endif %}>Portugal</option>
+                        <option value="US" {% if form.pais.value == 'US' %}selected{% endif %}>Estados Unidos</option>
+                        <option value="JP" {% if form.pais.value == 'JP' %}selected{% endif %}>Japão</option>
+                        <option value="FR" {% if form.pais.value == 'FR' %}selected{% endif %}>França</option>
+                        <option value="KR" {% if form.pais.value == 'KR' %}selected{% endif %}>Coreia do Sul</option>
+                        <option value="ES" {% if form.pais.value == 'ES' %}selected{% endif %}>Espanha</option>
+                        <option value="IT" {% if form.pais.value == 'IT' %}selected{% endif %}>Itália</option>
+                        <option value="DE" {% if form.pais.value == 'DE' %}selected{% endif %}>Alemanha</option>
+                        <option value="UK" {% if form.pais.value == 'UK' %}selected{% endif %}>Reino Unido</option>
+                        <option value="OUTRO" {% if form.pais.value == 'OUTRO' %}selected{% endif %}>Outro</option>
+                    </select>
+
+                    <i data-lucide="chevron-down" class="chevron"></i>
+                </div>
+            </div>
+
+            <!-- SENHA -->
+            <div class="form-group">
+                <label for="password">Senha</label>
+
+                <div class="input-field password-field">
+                    <i data-lucide="lock"></i>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password1"
+                        placeholder="Mínimo 8 caracteres"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="btn-toggle-password"
+                        data-target="password"
+                        aria-label="Mostrar senha"
+                    >
+                        <i data-lucide="eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- CONFIRMAR SENHA -->
+            <div class="form-group">
+                <label for="password2">Confirmar senha</label>
+
+                <div class="input-field password-field">
+                    <i data-lucide="lock"></i>
+
+                    <input
+                        type="password"
+                        id="password2"
+                        name="password2"
+                        placeholder="Digite sua senha novamente"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="btn-toggle-password"
+                        data-target="password2"
+                        aria-label="Mostrar senha"
+                    >
+                        <i data-lucide="eye"></i>
+                    </button>
+                </div>
+
+                <span class="password-error" id="password-error">
+                    As senhas não coincidem.
+                </span>
+            </div>
+
+            <!-- TERMOS DE USO -->
+            <div class="checkbox-group">
+                <input
+                    type="checkbox"
+                    id="aceitou_termos"
+                    name="aceitou_termos"
+                    required
+                >
+
+                <label for="aceitou_termos">
+                    Li e concordo com
+                    <a href="{% url 'core:termos' %}" target="_blank">Termos de Uso</a>
+                    e
+                    <a href="{% url 'core:privacidade' %}" target="_blank">Política de Privacidade</a>.
+                </label>
+            </div>
+
+            <!-- BOTÃO CRIAR CONTA -->
+            <button
+                type="submit"
+                class="btn-primary-auth"
+                id="btn-cadastro"
+                disabled
+            >
+                Criar conta
+            </button>
+
+        </form>
+
+        <!-- FOOTER -->
+        <p class="auth-footer-text">
+            Já tem conta?
+            <a href="{% url 'login' %}">Entrar</a>
+        </p>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+        lucide.createIcons();
+
+        // MOSTRAR E ESCONDER SENHA
+        document.querySelectorAll('.btn-toggle-password').forEach(button => {
+
+            button.addEventListener('click', function () {
+
+                const input = document.getElementById(this.dataset.target);
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.innerHTML = '<i data-lucide="eye-off"></i>';
+                    this.setAttribute('aria-label', 'Esconder senha');
+                } else {
+                    input.type = 'password';
+                    this.innerHTML = '<i data-lucide="eye"></i>';
+                    this.setAttribute('aria-label', 'Mostrar senha');
+                }
+
+                lucide.createIcons();
+
+            });
+
+        });
+
+        // CAMPOS DO FORMULÁRIO
+        const nome = document.getElementById('nome_completo');
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const pais = document.getElementById('pais');
+
+        const password = document.getElementById('password');
+        const password2 = document.getElementById('password2');
+
+        // ID CORRETO DO CHECKBOX
+        const terms = document.getElementById('aceitou_termos');
+
+        const button = document.getElementById('btn-cadastro');
+        const error = document.getElementById('password-error');
+
+        // VERIFICAR PREENCHIMENTO
+        function verificarFormulario() {
+
+            const preenchido =
+                nome.value.trim() !== '' &&
+                username.value.trim() !== '' &&
+                email.value.trim() !== '' &&
+                pais.value !== '' &&
+                password.value !== '' &&
+                password2.value !== '';
+
+            const senhasIguais =
+                password.value === password2.value;
+
+            const pronto =
+                preenchido &&
+                senhasIguais &&
+                terms.checked;
+
+            button.disabled = !pronto;
+
+            button.classList.toggle('is-ready', pronto);
+
+            error.style.display =
+                password2.value !== '' && !senhasIguais ? 'block' : 'none';
+
+        }
+
+        // ATUALIZAR AUTOMATICAMENTE
+        [nome, username, email, pais, password, password2, terms].forEach(campo => {
+
+            campo.addEventListener('input', verificarFormulario);
+
+            campo.addEventListener('change', verificarFormulario);
+
+        });
+
+        verificarFormulario();
+
+    </script>
+
+</body>
+</html>

@@ -27,6 +27,32 @@
             <i data-lucide="user-round"></i>
             <span>Perfil</span>
         </a>
+
+        {% if user.is_authenticated and user.is_staff %}
+            <a href="{% url 'core:admin_denuncias' %}" class="nav-item">
+                <i data-lucide="flag"></i>
+                <span>Denúncias</span>
+            </a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}" class="nav-item-form">
+                {% csrf_token %}
+                <button type="submit" class="nav-item nav-item-button">
+                    <i data-lucide="log-out"></i>
+                    <span>Sair</span>
+                </button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}" class="nav-item">
+                <i data-lucide="log-in"></i>
+                <span>Entrar</span>
+            </a>
+            <a href="{% url 'core:cadastro' %}" class="nav-item">
+                <i data-lucide="user-plus"></i>
+                <span>Cadastrar</span>
+            </a>
+        {% endif %}
     </nav>
 
     <div class="sidebar-footer">

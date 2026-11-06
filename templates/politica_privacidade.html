@@ -1,0 +1,85 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidade | Koobtil</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="documento-body">
+
+    <header class="documento-header">
+
+        <a href="{% url 'core:cadastro' %}" class="documento-voltar">
+            Voltar ao cadastro
+        </a>
+    </header>
+
+    <main class="documento-container">
+        <section class="documento-card">
+
+            <span class="documento-tag">DOCUMENTAÇÃO</span>
+
+            <h1>Política de Privacidade</h1>
+
+            <p class="documento-descricao">
+                A sua privacidade é importante para o Koobtil.
+                Nesta página, explicamos como seus dados são utilizados
+                e protegidos durante o uso da plataforma.
+            </p>
+
+            <h2>1. Dados coletados</h2>
+            <p>
+                Podemos coletar nome, nome de usuário, e-mail,
+                país e informações relacionadas às atividades
+                realizadas na plataforma.
+            </p>
+
+            <h2>2. Uso dos dados</h2>
+            <p>
+                Os dados são utilizados para criar e administrar
+                contas, permitir o acesso à plataforma e oferecer
+                suas funcionalidades.
+            </p>
+
+            <h2>3. Armazenamento e segurança</h2>
+            <p>
+                Adotamos medidas de segurança para proteger
+                as informações armazenadas.
+            </p>
+
+            <h2>4. Compartilhamento</h2>
+            <p>
+                Os dados pessoais não serão comercializados.
+                O compartilhamento ocorrerá apenas quando necessário
+                para o funcionamento da plataforma ou nas hipóteses
+                permitidas pela legislação.
+            </p>
+
+            <h2>5. Direitos do usuário</h2>
+            <p>
+                O usuário poderá solicitar acesso, correção
+                e exclusão de seus dados, respeitadas as obrigações
+                legais aplicáveis.
+            </p>
+
+            <h2>6. Contato</h2>
+            <p>
+                Para dúvidas sobre privacidade, entre em contato
+                com a equipe responsável pelo Koobtil.
+            </p>
+
+        </section>
+    </main>
+
+    <footer class="documento-footer">
+        © 2026 Koobtil — Todos os direitos reservados.
+    </footer>
+
+</body>
+</html>

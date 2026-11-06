@@ -29,47 +29,76 @@
         <div class="explore-search-bar">
             <i data-lucide="search"></i>
 
-            <input
-                type="text"
-                placeholder="Buscar título, autor ou país..."
-            >
+            <form method="GET" action="{% url 'core:buscar_livros' %}">
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="Buscar título, autor ou país..."
+                    value="{{ request.GET.q }}"
+                >
+            </form>
 
-            <button class="btn-filter" type="button">
-                <i data-lucide="sliders-horizontal"></i>
-            </button>
         </div>
 
         <!-- FILTROS -->
         <div class="filter-tags">
-            <button class="tag active" type="button">Todos</button>
-            <button class="tag" type="button">Iniciante</button>
-            <button class="tag" type="button">Intermediário</button>
-            <button class="tag" type="button">Avançado</button>
-            <button class="tag" type="button">Português</button>
-            <button class="tag" type="button">Inglês</button>
-            <button class="tag" type="button">Japonês</button>
+
+            <a href="{% url 'core:explorar' %}"
+            class="tag {% if not dificuldade_selecionada %}active{% endif %}">
+                Todos
+            </a>
+
+            <a href="?dificuldade=iniciante"
+            class="tag {% if dificuldade_selecionada == 'iniciante' %}active{% endif %}">
+                Iniciante
+            </a>
+
+            <a href="?dificuldade=intermediario"
+            class="tag {% if dificuldade_selecionada == 'intermediario' %}active{% endif %}">
+                Intermediário
+            </a>
+
+            <a href="?dificuldade=avancado"
+            class="tag {% if dificuldade_selecionada == 'avancado' %}active{% endif %}">
+                Avançado
+            </a>
+
         </div>
 
     </section>
 
-    <!-- DESTAQUE DO MÊS -->
+    <!-- DESTAQUE DA SEMANA -->
     <section class="featured-banner">
 
-        <div class="featured-content">
+        {% if destaque_semana %}
 
-            <span class="subtext">DESTAQUE DO MÊS</span>
+            <div class="featured-content">
 
-            <h2>Le Petit Prince</h2>
+                <span class="subtext">DESTAQUE DA SEMANA</span>
 
-            <p class="author-tag">
-                FR · Antoine de Saint-Exupéry
-            </p>
+                <h2>{{ destaque_semana.titulo }}</h2>
 
-            <button class="btn-view-book" type="button">
-                Ver livro →
-            </button>
+                <p class="author-tag">
+                    {{ destaque_semana.pais_origem }} ·
+                    {{ destaque_semana.autor }}
+                </p>
 
-        </div>
+                <a href="{% url 'core:detalhe_livro' destaque_semana.id %}"
+                class="btn-view-book">
+                    Ver livro →
+                </a>
+
+            </div>
+
+        {% else %}
+
+            <div class="featured-content">
+                <span class="subtext">DESTAQUE DA SEMANA</span>
+                <h2>Nenhum destaque disponível</h2>
+                <p class="author-tag">Favorite um livro para participar!</p>
+            </div>
+
+        {% endif %}
 
     </section>
 
@@ -89,13 +118,20 @@
 
                 <a href="{% url 'core:detalhe_livro' livro.id %}" class="book-card">
 
-                    <div class="cover cover-purple">
-                        <div class="cover-content">
-                            <h4>{{ livro.titulo }}</h4>
-                            <p>{{ livro.autor }}</p>
-                        </div>
+                   <div class="cover cover-purple">
+                        {% if livro.capa %}
+                            <img 
+                                src="{{ livro.capa }}"
+                                alt="Capa de {{ livro.titulo }}"
+                                onerror="this.style.display='none';"
+                            >
+                        {% else %}
+                            <div class="cover-content">
+                                <h4>{{ livro.titulo }}</h4>
+                                <p>{{ livro.autor }}</p>
+                            </div>
+                        {% endif %}
                     </div>
-
                     <div class="book-info">
 
                         <strong class="title">
@@ -124,39 +160,7 @@
 
     </section>
 
-    <!-- EXPLORAR POR PAÍS -->
-    <section class="section">
-
-        <div class="section-header">
-            <h3>Explore por país</h3>
-        </div>
-
-        <div class="countries-grid">
-
-            <div class="country-card">
-                <span class="country-code-lg">BR</span>
-                <strong class="country-name">Brasil</strong>
-            </div>
-
-            <div class="country-card">
-                <span class="country-code-lg">JP</span>
-                <strong class="country-name">Japão</strong>
-            </div>
-
-            <div class="country-card">
-                <span class="country-code-lg">US</span>
-                <strong class="country-name">Estados Unidos</strong>
-            </div>
-
-            <div class="country-card">
-                <span class="country-code-lg">FR</span>
-                <strong class="country-name">França</strong>
-            </div>
-
-        </div>
-
-    </section>
-
+    
 </div>
 
 {% endblock %}

@@ -25,16 +25,44 @@
 </div>
 
 <div class="book-detail-container">
+<!-- AÇÕES DO LIVRO -->
+    {% if user.is_authenticated and livro.criador_id == user.id or user.is_staff %}
+        <div class="book-edit-actions">
 
+            <a href="{% url 'core:editar_livro' livro.id %}" class="btn-edit-book">
+                <i data-lucide="pencil"></i>
+                Editar livro
+            </a>
+
+            {% if user.is_staff %}
+                <form method="POST"
+                    action="{% url 'core:excluir_livro' livro.id %}"
+                    onsubmit="return confirm('Tem certeza que deseja excluir este livro? Essa ação não poderá ser desfeita.');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-delete-book">
+                        <i data-lucide="trash-2"></i>
+                        Excluir livro
+                    </button>
+                </form>
+            {% endif %}
+
+        </div>
+    {% endif %}
     <!-- CABEÇALHO DO LIVRO -->
     <section class="book-header-section">
 
+        <!-- BOTÃO EDITAR LIVRO -->
+
         <div class="book-cover-wrapper">
             <div class="cover cover-purple book-large-cover">
-                <div class="cover-content">
-                    <h4>{{ livro.titulo }}</h4>
-                    <p>{{ livro.autor }}</p>
-                </div>
+                {% if livro.capa %}
+                    <img src="{{ livro.capa }}" alt="Capa de {{ livro.titulo }}">
+                {% else %}
+                    <div class="cover-content">
+                        <h4>{{ livro.titulo }}</h4>
+                        <p>{{ livro.autor }}</p>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
@@ -51,11 +79,9 @@
             </p>
 
             <div class="book-meta-row">
-
                 <span class="level-badge level-intermediate">
                     {{ livro.get_nivel_dificuldade_display }}
                 </span>
-
             </div>
 
         </div>
@@ -68,13 +94,25 @@
 
     <!-- AÇÕES -->
     <div class="action-buttons-row">
-        <button type="button" class="btn-primary-lg">
-            Começar a ler
-        </button>
+
+        <form method="POST" action="{% url 'core:favoritar_livro' livro.id %}">
+            {% csrf_token %}
+
+            {% if livro in request.user.perfil.livros_favoritos.all %}
+                <button type="submit" class="btn-primary-lg">
+                    Favoritado
+                </button>
+            {% else %}
+                <button type="submit" class="btn-primary-lg">
+                    Favoritar
+                </button>
+            {% endif %}
+        </form>
 
         <button type="button" class="btn-circle-lg">
             <i data-lucide="sparkles"></i>
         </button>
+
     </div>
 
     <!-- AVALIAÇÃO -->
@@ -83,41 +121,219 @@
         <h3>Sua avaliação</h3>
 
         <p class="subtext">
-            Conte aos outros leitores o que achou
+            Escreva uma resenha sobre o livro
         </p>
 
-        <div class="star-rating-picker">
-            <i data-lucide="star"></i>
-            <i data-lucide="star"></i>
-            <i data-lucide="star"></i>
-            <i data-lucide="star"></i>
-            <i data-lucide="star"></i>
-        </div>
+        <form method="POST">
+            {% csrf_token %}
 
-        <textarea
-            placeholder="Escreva uma resenha (opcional)..."
-            rows="3"
-        ></textarea>
+            <div class="form-group">
+                <label for="{{ form.texto.id_for_label }}">Sua resenha</label>
+                {{ form.texto }}
+                {{ form.texto.errors }}
+            </div>
 
-        <button type="button" class="btn-submit-review" disabled>
-            Publicar resenha
-        </button>
+            <div class="form-group">
+                <label for="{{ form.avaliacao.id_for_label }}">Sua avaliação</label>
+
+                <div class="star-rating-input">
+
+                    <input type="radio" name="avaliacao" id="estrela5" value="5" required>
+                    <label for="estrela5">★</label>
+
+                    <input type="radio" name="avaliacao" id="estrela4" value="4">
+                    <label for="estrela4">★</label>
+
+                    <input type="radio" name="avaliacao" id="estrela3" value="3">
+                    <label for="estrela3">★</label>
+
+                    <input type="radio" name="avaliacao" id="estrela2" value="2">
+                    <label for="estrela2">★</label>
+
+                    <input type="radio" name="avaliacao" id="estrela1" value="1">
+                    <label for="estrela1">★</label>
+
+                </div>
+
+                {{ form.avaliacao.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.idioma.id_for_label }}">
+                    Idioma da resenha
+                </label>
+
+                {{ form.idioma }}
+                {{ form.idioma.errors }}
+            </div>
+
+            <button type="submit" class="btn-submit-review">
+                Publicar resenha
+            </button>
+        </form>
 
     </section>
 
     <!-- RESENHAS DA COMUNIDADE -->
     <section class="section">
 
-        <h3 class="section-title">
-            Resenhas da comunidade
-        </h3>
-
-        <div id="community-reviews-container">
-            <!-- As resenhas serão exibidas posteriormente pelo Django. -->
+        <div class="section-header">
+            <h3>Resenhas da comunidade</h3>
         </div>
+
+        {% for resenha in resenhas %}
+
+            <div class="review-card">
+
+                <!-- INFORMAÇÕES DO USUÁRIO -->
+                <div class="review-header">
+
+                    <div class="user-info">
+
+                        <div class="avatar bg-magenta">
+                            {{ resenha.usuario.username|slice:":2"|upper }}
+                        </div>
+
+                        <div>
+                            <div class="user-name">
+                                <a href="{% url 'core:perfil_leitor' resenha.usuario.id %}" class="user-name">
+                                    <strong>{{ resenha.usuario.username }}</strong>
+                                </a>
+                            </div>
+
+                            <span class="time-ago">
+                                {{ resenha.data_publicacao|date:"d/m/Y H:i" }}
+                            </span>
+
+                            <span class="review-language">
+                                {% if resenha.idioma == 'pt' %}
+                                    Português
+                                {% elif resenha.idioma == 'en' %}
+                                    Inglês
+                                {% elif resenha.idioma == 'ja' %}
+                                    Japonês
+                                {% endif %}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    {% if resenha.usuario == request.user %}
+                        <div class="review-options">
+
+                            <button class="btn-more" type="button" onclick="abrirMenu('{{ resenha.id }}')">
+                                <i data-lucide="more-horizontal"></i>
+                            </button>
+
+                            <div class="review-menu" id="menu-{{ resenha.id }}">
+
+                                <a href="{% url 'core:editar_resenha' resenha.id %}">
+                                    <i data-lucide="pencil"></i>
+                                    Editar resenha
+                                </a>
+
+                                <a href="{% url 'core:excluir_resenha' resenha.id %}">
+                                    <i data-lucide="trash-2"></i>
+                                    Excluir resenha
+                                </a>
+
+                            </div>
+
+                        </div>
+                    {% endif %}
+
+                </div>
+
+                <!-- AVALIAÇÃO -->
+                <div class="review-rating">
+
+                    <div class="stars">
+                        {% for numero in "12345" %}
+                            {% if forloop.counter <= resenha.avaliacao %}
+                                <i data-lucide="star" class="filled"></i>
+                            {% else %}
+                                <i data-lucide="star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <span class="lang-tag">
+                        {{ resenha.idioma|upper }}
+                    </span>
+
+                </div>
+
+                <!-- TEXTO DA RESENHA -->
+                <p class="review-text">
+                    {{ resenha.texto }}
+                </p>
+
+            </div>
+
+            {% if resenha.usuario != request.user %}
+
+                <div class="report-container">
+
+                    <button type="button"
+                            class="report-toggle"
+                            onclick="abrirDenuncia('{{ resenha.id }}')">
+                        <i data-lucide="flag"></i>
+                        Denunciar resenha
+                    </button>
+
+                    <form method="POST"
+                          action="{% url 'core:denunciar_resenha' resenha.id %}"
+                          class="report-form"
+                          id="denuncia-{{ resenha.id }}"
+                          style="display: none;">
+
+                        {% csrf_token %}
+
+                        <select name="motivo" required>
+                            <option value="">Selecione o motivo</option>
+                            <option value="odio">Discurso de ódio</option>
+                            <option value="spam">Spam</option>
+                            <option value="assedio">Assédio</option>
+                            <option value="ofensivo">Conteúdo ofensivo</option>
+                            <option value="outro">Outro</option>
+                        </select>
+
+                        <textarea
+                            name="descricao"
+                            placeholder="Conte um pouco mais sobre o problema (opcional)"
+                        ></textarea>
+
+                        <button type="submit">
+                            Enviar denúncia
+                        </button>
+
+                    </form>
+
+                </div>
+
+            {% endif %}
+
+        {% empty %}
+            <p>Este livro ainda não possui resenhas. Seja o primeiro a avaliar!</p>
+        {% endfor %}
 
     </section>
 
 </div>
+
+<script>
+function abrirMenu(id) {
+    const menu = document.getElementById('menu-' + id);
+
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+function abrirDenuncia(id) {
+    const formulario = document.getElementById('denuncia-' + id);
+
+    formulario.style.display =
+        formulario.style.display === 'none' ? 'flex' : 'none';
+}
+</script>
 
 {% endblock %}

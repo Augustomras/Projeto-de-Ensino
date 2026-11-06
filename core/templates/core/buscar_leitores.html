@@ -1,0 +1,42 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Buscar leitores | Koobtil{% endblock %}
+
+{% block content %}
+
+<section class="section">
+
+    <div class="section-header">
+        <h2>Resultados da busca</h2>
+        <p>Leitores encontrados para "{{ pesquisa }}"</p>
+    </div>
+
+    <div class="readers-list">
+
+        {% for leitor in leitores %}
+            <a href="{% url 'core:perfil_leitor' leitor.id %}" class="reader-link">
+
+                <div class="reader-item">
+
+                    <div class="reader-avatar">
+                        {{ leitor.username|first|upper }}
+                    </div>
+
+                    <span>{{ leitor.get_full_name|default:leitor.username }}</span>
+
+                    <small>@{{ leitor.username }}</small>
+
+                </div>
+
+            </a>
+
+        {% empty %}
+            <p>Nenhum leitor encontrado.</p>
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

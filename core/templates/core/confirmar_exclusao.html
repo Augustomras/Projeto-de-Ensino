@@ -1,0 +1,93 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Excluir resenha | Koobtil{% endblock %}
+
+{% block content %}
+
+<div class="modal-overlay">
+
+    <div class="modal-card">
+
+        <!-- ÍCONE -->
+        <div class="modal-icon-badge">
+            <i data-lucide="trash-2"></i>
+        </div>
+
+        <!-- TÍTULO -->
+        <h2 class="modal-title">Excluir resenha?</h2>
+
+        <p class="modal-description">
+            Tem certeza que deseja excluir sua resenha?
+            Ela será removida do seu perfil e do feed dos seus amigos.
+        </p>
+
+        <!-- INFORMAÇÕES DO LIVRO -->
+        <div class="modal-book-preview">
+
+            <div class="mini-cover flex-shrink-0">
+                {% if resenha.livro.capa %}
+                    <img src="{{ resenha.livro.capa }}" alt="Capa de {{ resenha.livro.titulo }}">
+                {% else %}
+                    <i data-lucide="book-open"></i>
+                {% endif %}
+            </div>
+
+            <div class="modal-book-info">
+
+                <h4>{{ resenha.livro.titulo }}</h4>
+
+                <p>{{ resenha.livro.autor }}</p>
+
+                <div class="stars">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= resenha.avaliacao %}
+                            <i data-lucide="star" class="filled"></i>
+                        {% else %}
+                            <i data-lucide="star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal-review-preview">
+            <p>{{ resenha.texto }}</p>
+        </div>
+
+        <!-- AVISO -->
+        <div class="modal-warning-box">
+            <i data-lucide="alert-triangle"></i>
+            <span>Essa ação não pode ser desfeita.</span>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="modal-actions">
+
+            <a href="{% url 'core:detalhe_livro' resenha.livro.id %}" class="btn-cancel">
+                Cancelar
+            </a>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <button type="submit" class="btn-danger">
+                    <i data-lucide="trash-2"></i>
+                    Sim, excluir
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+
+{% endblock %}

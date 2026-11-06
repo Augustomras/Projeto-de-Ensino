@@ -52,28 +52,30 @@
                 Conecte-se com leitores de diversos países, compartilhe resenhas,<br>
                 descubra novos livros e pratique outros idiomas por meio da literatura.
             </p>
+
             <!-- ESTATÍSTICAS -->
             <div class="landing-stats">
 
                 <div class="landing-stat-card">
                     <i data-lucide="book-open"></i>
-                    <strong>12k</strong>
+                    <strong>{{ total_livros }}</strong>
                     <span>LIVROS</span>
                 </div>
 
                 <div class="landing-stat-card">
                     <i data-lucide="globe"></i>
-                    <strong>2</strong>
+                    <strong>{{ total_paises }}</strong>
                     <span>PAÍSES</span>
                 </div>
 
                 <div class="landing-stat-card">
-                    <i data-lucide="sparkles"></i>
-                    <strong>98%</strong>
-                    <span>ADORAM</span>
+                    <i data-lucide="users"></i>
+                    <strong>{{ total_usuarios }}</strong>
+                    <span>PESSOAS USAM</span>
                 </div>
 
             </div>
+
 
             <!-- BOTÕES DE AÇÃO -->
             <div class="landing-actions">
@@ -82,7 +84,7 @@
                     Criar minha conta
                 </a>
 
-                <a href="{% url 'core:login' %}" class="btn-secondary-landing">
+                <a href="{% url 'login' %}" class="btn-secondary-landing">
                     Já tenho conta
                 </a>
 

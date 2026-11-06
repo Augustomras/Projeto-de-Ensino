@@ -1,0 +1,118 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Buscar livros | Koobtil{% endblock %}
+
+{% block header %}
+    {% with page_title="Resultados da busca" %}
+        {% include 'fragments/header.html' %}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+
+<div class="content-grid">
+
+    <!-- COLUNA DOS RESULTADOS -->
+    <div class="feed-column">
+
+        <!-- TÍTULO DA BUSCA -->
+        <div class="search-results-header">
+            <h2>Resultados da busca</h2>
+
+            <p>
+                Resultados encontrados para
+                <strong>"{{ pesquisa }}"</strong>
+            </p>
+        </div>
+
+        <!-- LISTA DE LIVROS -->
+        <section class="search-results-list">
+
+            {% for livro in livros %}
+
+                <a href="{% url 'core:detalhe_livro' livro.id %}"
+                   class="search-result-card">
+
+                    <!-- CAPA DO LIVRO -->
+                    <div class="search-result-cover cover-purple">
+
+                        {% if livro.capa %}
+                            <img
+                                src="{{ livro.capa }}"
+                                alt="Capa de {{ livro.titulo }}"
+                            >
+                        {% else %}
+                            <div class="cover-content">
+                                <h4>{{ livro.titulo }}</h4>
+                                <p>{{ livro.autor }}</p>
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                    <!-- INFORMAÇÕES DO LIVRO -->
+                    <div class="search-result-info">
+
+                        <h3>{{ livro.titulo }}</h3>
+
+                        <p class="search-result-author">
+                            {{ livro.autor }}
+                        </p>
+
+                        <div class="search-result-details">
+
+                            <span>
+                                <i data-lucide="map-pin"></i>
+                                {{ livro.pais_origem }}
+                            </span>
+
+                            <span>
+                                <i data-lucide="book-open"></i>
+                                {{ livro.get_nivel_dificuldade_display }}
+                            </span>
+
+                        </div>
+
+                        <p class="search-result-description">
+                            {{ livro.descricao|truncatewords:20 }}
+                        </p>
+
+                        <span class="search-result-link">
+                            Ver detalhes
+                            <i data-lucide="arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+            {% empty %}
+
+                <!-- NENHUM RESULTADO -->
+                <div class="search-empty">
+
+                    <i data-lucide="book-x"></i>
+
+                    <h3>Nenhum livro encontrado</h3>
+
+                    <p>
+                        Não encontramos livros com esse termo.
+                        Tente pesquisar por outro título ou autor.
+                    </p>
+
+                    <a href="{% url 'core:explorar' %}">
+                        Explorar livros
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}

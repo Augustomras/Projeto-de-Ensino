@@ -1,57 +1,52 @@
 
 {% extends 'base.html' %}
 
-{% block title %}Adicionar livro | Koobtil{% endblock %}
+{% block title %}
+    {% if livro %}Editar livro | Koobtil{% else %}Adicionar livro | Koobtil{% endif %}
+{% endblock %}
 
 {% block content %}
 
 <div class="form-container">
 
-    <!-- BOTÃO VOLTAR -->
-    <a href="{% url 'core:explorar' %}" class="btn-back">
+    <a href="{% if livro %}{% url 'core:detalhe_livro' livro.id %}{% else %}{% url 'core:explorar' %}{% endif %}" class="btn-back">
         <i data-lucide="arrow-left"></i>
         <span>Voltar</span>
     </a>
 
-    <!-- CABEÇALHO -->
     <header class="form-header">
         <div class="icon-badge">
-            <i data-lucide="plus-square"></i>
+            <i data-lucide="{% if livro %}book-pen{% else %}plus-square{% endif %}"></i>
         </div>
 
         <div>
-            <h1>Adicionar livro</h1>
+            <h1>{% if livro %}Editar livro{% else %}Adicionar livro{% endif %}</h1>
             <p class="subtitle">
-                Compartilhe uma nova leitura com a comunidade.
+                {% if livro %}
+                    Atualize as informações do livro.
+                {% else %}
+                    Compartilhe uma nova leitura com a comunidade.
+                {% endif %}
             </p>
         </div>
     </header>
 
-    <!-- FORMULÁRIO -->
     <form class="add-book-form" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <!-- CAPA -->
-        <div class="upload-box">
-            <div class="upload-icon-wrapper">
-                <i data-lucide="upload"></i>
-            </div>
-
-            <div class="upload-text">
-                <strong>Adicionar capa</strong>
-                <span>PNG, JPG até 5MB</span>
-            </div>
-
+        <div class="form-group">
+            <label for="cover">Link da capa do livro</label>
             <input
-                type="file"
-                id="cover-upload"
+                type="url"
+                id="cover"
                 name="capa"
-                accept="image/png, image/jpeg"
-                class="hidden-input"
+                placeholder="Cole aqui o link da imagem"
+                value="{{ livro.capa|default:'' }}"
+                required
             >
+            <small>Adicione o endereço de uma imagem disponível na internet.</small>
         </div>
 
-        <!-- TÍTULO -->
         <div class="form-group">
             <label for="title">Título</label>
             <input
@@ -59,11 +54,11 @@
                 id="title"
                 name="titulo"
                 placeholder="Ex: Norwegian Wood"
+                value="{{ livro.titulo|default:'' }}"
                 required
             >
         </div>
 
-        <!-- AUTOR -->
         <div class="form-group">
             <label for="author">Autor</label>
             <input
@@ -71,58 +66,57 @@
                 id="author"
                 name="autor"
                 placeholder="Ex: Haruki Murakami"
+                value="{{ livro.autor|default:'' }}"
                 required
             >
         </div>
 
-        <!-- PAÍS DE ORIGEM -->
         <div class="form-group">
             <label for="country">País de origem</label>
+            <input
+                type="text"
+                id="country"
+                name="pais_origem"
+                list="lista-paises"
+                placeholder="Digite o nome do país..."
+                value="{{ livro.pais_origem|default:'' }}"
+                required
+            >
 
-            <div class="select-wrapper">
-                <select id="country" name="pais_origem" required>
-                    <option value="Japão">Japão</option>
-                    <option value="Brasil">Brasil</option>
-                    <option value="Estados Unidos">Estados Unidos</option>
-                    <option value="França">França</option>
-                    <option value="Coreia do Sul">Coreia do Sul</option>
-                </select>
-
-                <i data-lucide="chevron-down" class="select-icon"></i>
-            </div>
+            <datalist id="lista-paises">
+                {% for pais in paises %}
+                    <option value="{{ pais }}">
+                {% endfor %}
+            </datalist>
         </div>
 
-        <!-- DESCRIÇÃO -->
         <div class="form-group">
             <label for="description">Descrição</label>
-
             <textarea
                 id="description"
                 name="descricao"
                 rows="4"
                 placeholder="Sobre o que é? Por que vale a pena ler?"
                 required
-            ></textarea>
+            >{{ livro.descricao|default:'' }}</textarea>
         </div>
 
-        <!-- NÍVEL DE DIFICULDADE -->
         <div class="form-group">
             <label for="level">Nível de dificuldade</label>
 
             <div class="select-wrapper">
                 <select id="level" name="nivel_dificuldade" required>
-                    <option value="iniciante">Iniciante</option>
-                    <option value="intermediario" selected>Intermediário</option>
-                    <option value="avancado">Avançado</option>
+                    <option value="iniciante" {% if livro.nivel_dificuldade == 'iniciante' %}selected{% endif %}>Iniciante</option>
+                    <option value="intermediario" {% if not livro or livro.nivel_dificuldade == 'intermediario' %}selected{% endif %}>Intermediário</option>
+                    <option value="avancado" {% if livro.nivel_dificuldade == 'avancado' %}selected{% endif %}>Avançado</option>
                 </select>
 
                 <i data-lucide="chevron-down" class="select-icon"></i>
             </div>
         </div>
 
-        <!-- PUBLICAR -->
         <button type="submit" class="btn-submit">
-            Publicar livro
+            {% if livro %}Salvar alterações{% else %}Publicar livro{% endif %}
         </button>
 
     </form>

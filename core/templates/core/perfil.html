@@ -23,68 +23,148 @@
             </div>
 
             <div class="profile-details">
-                <h2>{{ leitor.username }}</h2>
+                <h2>{{ perfil.nome_completo }}</h2>
+
+                <p class="profile-location">
+                    <i data-lucide="user"></i>
+                    @{{ leitor.username }}
+                </p>
+
+                <p class="profile-location">
+                    <i data-lucide="mail"></i>
+                    {{ leitor.email }}
+                </p>
 
                 <p class="profile-location">
                     <i data-lucide="map-pin"></i>
-                    <span class="flag-code">BR</span> Brasil
-                </p>
-
-                <p class="profile-bio">
-                    Leitor(a) da comunidade Koobtil.
+                    {{ perfil.get_pais_display }}
                 </p>
             </div>
 
         </div>
 
-        <!-- ESTATÍSTICAS -->
-        <div class="profile-stats">
-
-            <div class="stat-box">
-                <i data-lucide="book-open"></i>
-                <strong class="stat-number">0</strong>
-                <span class="stat-label">LIVROS</span>
-            </div>
-
-            <div class="stat-box">
-                <i data-lucide="star"></i>
-                <strong class="stat-number">0</strong>
-                <span class="stat-label">RESENHAS</span>
-            </div>
-
-            <div class="stat-box">
-                <i data-lucide="award"></i>
-                <strong class="stat-number">0</strong>
-                <span class="stat-label">CONQUISTAS</span>
-            </div>
-
-        </div>
 
     </section>
 
     <!-- ABAS DO PERFIL -->
     <nav class="profile-tabs">
-        <button class="tab-btn active" type="button">Favoritos</button>
-        <button class="tab-btn" type="button">Lendo</button>
-        <button class="tab-btn" type="button">Resenhas</button>
+        <button class="tab-btn active" type="button" onclick="mostrarAba('favoritos', this)">
+            Favoritos
+        </button>
+
+        <button class="tab-btn" type="button" onclick="mostrarAba('resenhas', this)">
+            Resenhas
+        </button>
     </nav>
 
-    <!-- LIVROS -->
-    <section class="profile-books-grid">
+    <!-- LIVROS FAVORITOS -->
+    <section class="profile-books-grid profile-tab-content" id="favoritos">
 
-        {% for livro in livros %}
-            <div class="profile-book-card cover cover-purple">
-                <div class="cover-content">
-                    <h4>{{ livro.titulo }}</h4>
-                    <p>{{ livro.autor }}</p>
-                </div>
-            </div>
+        {% for livro in favoritos %}
+            <a href="{% url 'core:detalhe_livro' livro.id %}" class="profile-book-card cover cover-purple">
+
+                {% if livro.capa %}
+                    <img src="{{ livro.capa }}" alt="Capa de {{ livro.titulo }}">
+                {% else %}
+                    <div class="cover-content">
+                        <h4>{{ livro.titulo }}</h4>
+                        <p>{{ livro.autor }}</p>
+                    </div>
+                {% endif %}
+
+            </a>
+
         {% empty %}
-            <p>Nenhum livro encontrado.</p>
+            <p>Nenhum livro favoritado ainda.</p>
+        {% endfor %}
+
+    </section>
+
+    <!-- RESENHAS DO LEITOR -->
+    <section class="profile-reviews profile-tab-content" id="resenhas" style="display: none;">
+
+        {% for resenha in resenhas %}
+
+            <div class="review-card">
+
+                <!-- LIVRO DA RESENHA -->
+                <a href="{% url 'core:detalhe_livro' resenha.livro.id %}" class="review-book-box">
+
+                    <div class="mini-cover cover-purple">
+
+                        {% if resenha.livro.capa %}
+                            <img src="{{ resenha.livro.capa }}" alt="Capa de {{ resenha.livro.titulo }}">
+                        {% else %}
+                            <span>{{ resenha.livro.titulo }}</span>
+                        {% endif %}
+
+                    </div>
+
+                    <div>
+                        <strong>{{ resenha.livro.titulo }}</strong>
+                        <small>{{ resenha.livro.autor }}</small>
+                    </div>
+
+                </a>
+
+                <!-- AVALIAÇÃO -->
+                <div class="review-rating">
+
+                    <div class="stars">
+
+                        {% for numero in "12345" %}
+
+                            {% if forloop.counter <= resenha.avaliacao %}
+                                <i data-lucide="star" class="filled"></i>
+                            {% else %}
+                                <i data-lucide="star"></i>
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </div>
+
+                    <span class="lang-tag">
+                        {{ resenha.idioma|upper }}
+                    </span>
+
+                </div>
+
+                <!-- TEXTO DA RESENHA -->
+                <p class="review-text">
+                    {{ resenha.texto }}
+                </p>
+
+                <!-- DATA -->
+                <small>{{ resenha.data_publicacao|date:"d/m/Y" }}</small>
+
+            </div>
+
+        {% empty %}
+
+            <p>Este leitor ainda não publicou nenhuma resenha.</p>
+
         {% endfor %}
 
     </section>
 
 </main>
+
+<script>
+function mostrarAba(aba, botao) {
+
+    document.querySelectorAll('.profile-tab-content').forEach(function(secao) {
+        secao.style.display = 'none';
+    });
+
+    document.querySelectorAll('.tab-btn').forEach(function(botao) {
+        botao.classList.remove('active');
+    });
+
+    document.getElementById(aba).style.display = 'grid';
+
+    botao.classList.add('active');
+}
+</script>
 
 {% endblock %}

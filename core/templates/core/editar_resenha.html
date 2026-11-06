@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar resenha | Koobtil{% endblock %}
+
+{% block content %}
+
+<div class="edit-review-page">
+
+    <div class="edit-review-card">
+
+        <h2>Editar resenha</h2>
+        <p>Atualize sua avaliação sobre este livro.</p>
+
+        <div class="edit-book-info">
+            <strong>{{ resenha.livro.titulo }}</strong>
+            <span>{{ resenha.livro.autor }}</span>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.texto.id_for_label }}">Sua resenha</label>
+                {{ form.texto }}
+                {{ form.texto.errors }}
+            </div>
+
+            <div class="form-group">
+                <label>Sua avaliação</label>
+
+                <div class="star-rating-input">
+                    {% for valor, texto in form.avaliacao.field.choices reversed %}
+                        <input
+                            type="radio"
+                            name="avaliacao"
+                            id="estrela{{ valor }}"
+                            value="{{ valor }}"
+                            {% if form.avaliacao.value|stringformat:"s" == valor|stringformat:"s" %}checked{% endif %}
+                            required
+                        >
+                        <label for="estrela{{ valor }}">★</label>
+                    {% endfor %}
+                </div>
+
+                {{ form.avaliacao.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.idioma.id_for_label }}">
+                    Idioma da resenha
+                </label>
+
+                {{ form.idioma }}
+                {{ form.idioma.errors }}
+            </div>
+
+            <div class="edit-review-actions">
+
+                <a href="{% url 'core:detalhe_livro' resenha.livro.id %}" class="btn-cancel">
+                    Cancelar
+                </a>
+
+                <button type="submit" class="btn-save-review">
+                    Salvar alterações
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

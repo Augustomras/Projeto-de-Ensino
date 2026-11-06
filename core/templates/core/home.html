@@ -18,76 +18,124 @@
 
         <!-- BANNER DE SEQUÊNCIA -->
         <div class="streak-banner">
+
             <div class="streak-left">
+
                 <div class="streak-icon">
                     <i data-lucide="flame"></i>
                 </div>
 
                 <div class="streak-info">
+
                     <span class="subtext">SEQUÊNCIA ATUAL</span>
-                    <h2>12 dias lendo</h2>
-                    <p>Continue assim! Próxima meta: 15 dias</p>
+
+                    <h2>
+                        {{ sequencia }}º dia de intercâmbio literário
+                    </h2>
+
+                    {% if sequencia == 0 %}
+                        <p>Visualize um livro hoje para começar sua sequência!</p>
+
+                    {% elif sequencia < 15 %}
+                        <p>Continue assim! Próxima meta: 15 dias</p>
+
+                    {% elif sequencia < 30 %}
+                        <p>Parabéns! Próxima meta: 30 dias</p>
+
+                    {% else %}
+                        <p>Incrível! Você já alcançou 30 dias de sequência!</p>
+                    {% endif %}
+
                 </div>
+
             </div>
 
-            <a href="{% url 'core:explorar' %}" class="btn-read-today">Ler hoje</a>
+            <a href="{% url 'core:explorar' %}" class="btn-read-today">
+                Explorar livros
+            </a>
+
         </div>
 
         <!-- LEITORES ATIVOS -->
         <section class="section">
+
             <div class="section-header">
                 <h3>Leitores ativos</h3>
                 <a href="#" class="link-see-all">Ver todos</a>
             </div>
 
             <div class="readers-list">
+
                 {% for leitor in leitores %}
+
                     <a href="{% url 'core:perfil_leitor' leitor.id %}" class="reader-link">
+
                         <div class="reader-item">
+
                             <div class="avatar bg-purple">
                                 {{ leitor.username|slice:":2"|upper }}
                             </div>
 
                             <span>{{ leitor.username }}</span>
+
                         </div>
+
                     </a>
+
                 {% empty %}
+
                     <p>Nenhum leitor cadastrado ainda.</p>
+
                 {% endfor %}
+
             </div>
+
         </section>
 
         <!-- LIVROS POPULARES -->
         <section class="section">
+
             <div class="section-header">
+
                 <h3>
                     <i data-lucide="trending-up" class="inline-icon"></i>
                     Populares esta semana
                 </h3>
 
-                <a href="{% url 'core:explorar' %}" class="link-see-all">Explorar</a>
+                <a href="{% url 'core:explorar' %}" class="link-see-all">
+                    Explorar
+                </a>
+
             </div>
 
             <div class="books-grid">
 
-                {% for livro in livros %}
+                {% for livro in livros_populares %}
+
                     <a href="{% url 'core:detalhe_livro' livro.id %}" class="book-link">
 
-                    <div class="book-card">
+                        <div class="book-card">
 
-                        <div class="cover cover-purple">
-                            <div class="cover-content">
-                                <h4>{{ livro.titulo }}</h4>
-                                <p>{{ livro.autor }}</p>
+                            <div class="cover cover-purple">
+
+                                {% if livro.capa %}
+                                    <img src="{{ livro.capa }}" alt="Capa de {{ livro.titulo }}">
+                                {% else %}
+                                    <div class="cover-content">
+                                        <h4>{{ livro.titulo }}</h4>
+                                        <p>{{ livro.autor }}</p>
+                                    </div>
+                                {% endif %}
+
                             </div>
+
+                            <div class="book-info">
+                                <strong class="title">{{ livro.titulo }}</strong>
+                                <span class="author">{{ livro.autor }}</span>
+                            </div>
+
                         </div>
 
-                        <div class="book-info">
-                            <strong class="title">{{ livro.titulo }}</strong>
-                            <span class="author">{{ livro.autor }}</span>
-                        </div>
-
-                    </div>
                     </a>
 
                 {% empty %}
@@ -97,10 +145,12 @@
                 {% endfor %}
 
             </div>
+
         </section>
 
         <!-- RESENHAS RECENTES -->
         <section class="section">
+
             <div class="section-header">
                 <h3>Resenhas recentes</h3>
             </div>
@@ -109,68 +159,146 @@
 
                 <div class="review-card">
 
+                    <!-- INFORMAÇÕES DO USUÁRIO -->
                     <div class="review-header">
+
                         <div class="user-info">
+
                             <div class="avatar bg-magenta">
                                 {{ resenha.usuario.username|slice:":2"|upper }}
                             </div>
 
                             <div>
+
                                 <div class="user-name">
+
                                     <a href="{% url 'core:perfil_leitor' resenha.usuario.id %}" class="user-name">
                                         <strong>{{ resenha.usuario.username }}</strong>
                                     </a>
+
                                 </div>
 
                                 <span class="time-ago">
                                     {{ resenha.data_publicacao|date:"d/m/Y H:i" }}
                                 </span>
+
                             </div>
+
                         </div>
 
-                        <button class="btn-more">
-                            <i data-lucide="more-horizontal"></i>
-                        </button>
+                        <!-- OPÇÕES DA PRÓPRIA RESENHA -->
+                        {% if resenha.usuario == request.user %}
+
+                            <div class="review-options">
+
+                                <button class="btn-more" type="button" onclick="abrirMenu('{{ resenha.id }}')">
+                                    <i data-lucide="more-horizontal"></i>
+                                </button>
+
+                                <div class="review-menu" id="menu-{{ resenha.id }}">
+
+                                    <a href="{% url 'core:editar_resenha' resenha.id %}">
+                                        <i data-lucide="pencil"></i>
+                                        Editar resenha
+                                    </a>
+
+                                    <a href="{% url 'core:excluir_resenha' resenha.id %}">
+                                        <i data-lucide="trash-2"></i>
+                                        Excluir resenha
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
                     </div>
 
-                    <div class="review-book-box">
-                        <div class="mini-cover cover-purple"></div>
+                    <!-- LIVRO DA RESENHA -->
+                    <a href="{% url 'core:detalhe_livro' resenha.livro.id %}" class="review-book-box">
+
+                        <div class="mini-cover cover-purple">
+
+                            {% if resenha.livro.capa %}
+                                <img src="{{ resenha.livro.capa }}" alt="Capa de {{ resenha.livro.titulo }}">
+                            {% else %}
+                                <span>{{ resenha.livro.titulo }}</span>
+                            {% endif %}
+
+                        </div>
 
                         <div>
-                            <a href="{% url 'core:detalhe_livro' resenha.livro.id %}" class="mini-book-title">
-                                {{ resenha.livro.titulo }}
-                            </a>
-
-                            <p class="mini-book-author">
-                                {{ resenha.livro.autor }}
-                            </p>
+                            <strong>{{ resenha.livro.titulo }}</strong>
+                            <small>{{ resenha.livro.autor }}</small>
                         </div>
-                    </div>
 
+                    </a>
+
+                    <!-- AVALIAÇÃO -->
                     <div class="review-rating">
+
                         <div class="stars">
+
                             {% for numero in "12345" %}
+
                                 {% if forloop.counter <= resenha.avaliacao %}
                                     <i data-lucide="star" class="filled"></i>
                                 {% else %}
                                     <i data-lucide="star"></i>
                                 {% endif %}
+
                             {% endfor %}
+
                         </div>
 
                         <span class="lang-tag">
                             {{ resenha.idioma|upper }}
                         </span>
+
                     </div>
 
+                    <!-- TEXTO DA RESENHA -->
                     <p class="review-text">
                         {{ resenha.texto }}
                     </p>
 
-                    <button class="btn-translate">
-                        <i data-lucide="languages"></i>
-                        Traduzir
-                    </button>
+                    <!-- DENUNCIAR RESENHA -->
+                    {% if resenha.usuario != request.user %}
+
+                        <div class="report-container">
+
+                            <button type="button" class="report-toggle" onclick="abrirDenuncia('{{ resenha.id }}')">
+                                <i data-lucide="flag"></i>
+                                Denunciar resenha
+                            </button>
+
+                            <form method="POST"
+                                  action="{% url 'core:denunciar_resenha' resenha.id %}"
+                                  class="report-form"
+                                  id="denuncia-{{ resenha.id }}"
+                                  style="display: none;">
+
+                                {% csrf_token %}
+
+                                <select name="motivo" required>
+                                    <option value="">Selecione o motivo</option>
+                                    <option value="odio">Discurso de ódio</option>
+                                    <option value="spam">Spam</option>
+                                    <option value="assedio">Assédio</option>
+                                    <option value="ofensivo">Conteúdo ofensivo</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+
+                                <textarea name="descricao" placeholder="Conte um pouco mais sobre o problema (opcional)"></textarea>
+
+                                <button type="submit">Enviar denúncia</button>
+
+                            </form>
+
+                        </div>
+
+                    {% endif %}
 
                 </div>
 
@@ -189,28 +317,37 @@
 
         <!-- RECOMENDADO PARA VOCÊ -->
         <div class="widget-card">
+
             <h3>Recomendado para você</h3>
             <p class="widget-sub">Baseado nas suas leituras</p>
 
             <div class="recommended-list">
 
                 {% for livro in livros %}
+
                     <a href="{% url 'core:detalhe_livro' livro.id %}">
 
-                    <div class="rec-item">
+                        <div class="rec-item">
 
-                        <div class="mini-cover cover-gold flex-shrink-0">
-                            <span>{{ livro.titulo }}</span>
-                            <small>{{ livro.autor }}</small>
+                            <div class="mini-cover cover-gold flex-shrink-0">
+
+                                {% if livro.capa %}
+                                    <img src="{{ livro.capa }}" alt="Capa de {{ livro.titulo }}">
+                                {% else %}
+                                    <span>{{ livro.titulo }}</span>
+                                    <small>{{ livro.autor }}</small>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="rec-info">
+                                <h4>{{ livro.titulo }}</h4>
+                                <p>{{ livro.autor }}</p>
+                            </div>
+
                         </div>
 
-                        <div class="rec-info">
-                            <h4>{{ livro.titulo }}</h4>
-                            <p>{{ livro.autor }}</p>
-                        </div>
-
-                    </div>
-                </a>
+                    </a>
 
                 {% empty %}
 
@@ -219,24 +356,73 @@
                 {% endfor %}
 
             </div>
+
         </div>
 
         <!-- DESAFIO MENSAL -->
         <div class="widget-card challenge-card">
+
             <h3>Desafio mensal</h3>
-            <p class="widget-sub">Leia 3 livros de continentes diferentes</p>
+
+            <p class="widget-sub">{{ desafio.titulo }}</p>
+
+            <p class="challenge-description">
+                {{ desafio.descricao }}
+            </p>
 
             <div class="progress-bar-bg">
-                <div class="progress-bar-fill" style="width: 66%;"></div>
+                <div class="progress-bar-fill"></div>
             </div>
 
             <p class="challenge-status">
-                2 de 3 livros · faltam 11 dias
+                {{ progresso }} de {{ desafio.meta }} concluídos
             </p>
+
+            {% if progresso >= desafio.meta %}
+
+                <p class="challenge-status">
+                    <i data-lucide="trophy"></i>
+                    Desafio concluído! Parabéns!
+                </p>
+
+            {% else %}
+
+                <p class="challenge-status">
+
+                    Faltam {{ desafio.meta|add:"-"|add:progresso }} para completar ·
+
+                    {% if dias_restantes == 0 %}
+                        Último dia!
+                    {% else %}
+                        {{ dias_restantes }} dias restantes
+                    {% endif %}
+
+                </p>
+
+            {% endif %}
+
         </div>
 
     </div>
 
 </div>
+
+<script>
+
+function abrirMenu(id) {
+    const menu = document.getElementById('menu-' + id);
+
+    menu.style.display =
+        menu.style.display === 'block' ? 'none' : 'block';
+}
+
+function abrirDenuncia(id) {
+    const formulario = document.getElementById('denuncia-' + id);
+
+    formulario.style.display =
+        formulario.style.display === 'none' ? 'flex' : 'none';
+}
+
+</script>
 
 {% endblock %}

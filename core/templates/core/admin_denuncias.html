@@ -1,0 +1,120 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Koobtil - Denúncias{% endblock %}
+
+{% block content %}
+
+<div class="admin-body">
+    <div class="reports-container">
+
+        <h1 class="reports-title">Denúncias</h1>
+
+        <div class="reports-list" id="reports-list-container">
+
+            {% for denuncia in denuncias %}
+
+                <div class="report-card">
+
+                    <!-- CABEÇALHO: MOTIVO E DATA -->
+                    <div class="report-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+
+                        <span class="report-reason-badge" style="background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                            🚩 {{ denuncia.get_motivo_display }}
+                        </span>
+
+                        <span class="report-date" style="font-size: 12px; color: #94a3b8;">
+                            {{ denuncia.data_denuncia|date:"d/m/Y - H:i" }}
+                        </span>
+
+                    </div>
+
+                    <!-- CONTEÚDO ORIGINAL DA RESENHA -->
+                    <div class="reported-content-box" style="background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
+
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+
+                            <span style="background: #0ea5e9; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold;">
+                                {{ denuncia.resenha.usuario.username|slice:":2"|upper }}
+                            </span>
+
+                            <span style="font-size: 13px; color: #1e293b;">
+                                <strong>@{{ denuncia.resenha.usuario.username }}</strong>
+                                resenhou
+                                <strong>{{ denuncia.resenha.livro.titulo }}</strong>
+                            </span>
+
+                        </div>
+
+                        <p style="font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 6px;">
+                            CONTEÚDO DA RESENHA
+                        </p>
+
+                        <p class="report-description" style="font-size: 13px; color: #475569; margin: 0; line-height: 1.6;">
+                            "{{ denuncia.resenha.texto }}"
+                        </p>
+
+                    </div>
+
+                    <!-- INFORMAÇÕES DA DENÚNCIA -->
+                    <div class="report-meta" style="font-size: 13px; color: #334155; margin-bottom: 16px; line-height: 1.8;">
+
+                        <p>
+                            <strong>Denunciante:</strong>
+                            @{{ denuncia.denunciante.username }}
+                        </p>
+
+                        <p>
+                            <strong>Livro:</strong>
+                            {{ denuncia.resenha.livro.titulo }}
+                        </p>
+
+                        <p>
+                            <strong>Justificativa de quem denunciou:</strong>
+
+                            {% if denuncia.descricao %}
+                                "{{ denuncia.descricao }}"
+                            {% else %}
+                                <span style="color: #94a3b8;">
+                                    Nenhuma justificativa adicional informada.
+                                </span>
+                            {% endif %}
+                        </p>
+
+                    </div>
+
+                    <!-- BOTÕES DE AÇÃO -->
+                    <div class="report-actions" style="display: flex; gap: 10px;">
+
+                        <form method="POST" action="{% url 'core:remover_denuncia' denuncia.id %}">
+                            {% csrf_token %}
+
+                            <button type="submit" class="btn-remove">
+                                Remover conteúdo
+                            </button>
+                        </form>
+
+                        <form method="POST" action="{% url 'core:ignorar_denuncia' denuncia.id %}">
+                            {% csrf_token %}
+
+                            <button type="submit" class="btn-ignore">
+                                Ignorar denúncia
+                            </button>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <p>Nenhuma denúncia pendente no momento.</p>
+
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

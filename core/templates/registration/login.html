@@ -1,0 +1,225 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Koobtil - Bem-vindo de volta</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        /* CAMPO DE SENHA */
+        .password-field {
+            position: relative;
+        }
+
+        /* Remove o olho automático do navegador */
+        #password::-ms-reveal,
+        #password::-ms-clear {
+            display: none;
+        }
+
+        #password::-webkit-credentials-auto-fill-button {
+            visibility: hidden;
+            display: none !important;
+        }
+
+        /* BOTÃO DO OLHO */
+        .btn-toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            color: #777;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        .btn-toggle-password:hover {
+            color: #1f2160;
+        }
+
+        /* BOTÃO ENTRAR */
+        .btn-primary-auth {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-primary-auth.is-ready {
+            background-color: #1f2160 !important;
+            color: white !important;
+            opacity: 1 !important;
+        }
+    </style>
+</head>
+
+<body class="auth-body">
+
+    <div class="auth-container">
+
+        <!-- BOTÃO VOLTAR -->
+        <a href="{% url 'core:landing' %}" class="btn-back">
+            <i data-lucide="arrow-left"></i>
+            <span>Voltar</span>
+        </a>
+
+        <!-- LOGO -->
+        <div class="auth-logo-wrapper">
+            <a href="{% url 'core:landing' %}" class="logo-link">
+                <div class="logo">
+                    <span class="logo-mark">K</span>
+                    <span class="logo-text">Koobtil</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- CABEÇALHO -->
+        <header class="auth-header">
+            <h1>Bem-vindo de volta</h1>
+            <p class="subtitle">Continue lendo o mundo. Entre na sua conta.</p>
+        </header>
+
+        <!-- FORMULÁRIO -->
+        <form class="auth-form" method="post">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <p style="color: #b91c1c; background: #fee2e2; padding: 12px 16px; border-radius: 12px; font-size: 13px;">
+                    Usuário ou senha incorretos.
+                </p>
+            {% endif %}
+
+            <!-- NOME DE USUÁRIO -->
+            <div class="form-group">
+                <label for="username">Nome de usuário</label>
+
+                <div class="input-field">
+                    <i data-lucide="user"></i>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Digite seu nome de usuário"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- SENHA -->
+            <div class="form-group">
+                <label for="password">Senha</label>
+
+                <div class="input-field password-field">
+                    <i data-lucide="lock"></i>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="btn-toggle-password"
+                        id="togglePassword"
+                        aria-label="Mostrar senha"
+                        tabindex="-1"
+                    >
+                        <i data-lucide="eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- OPÇÕES DE LOGIN -->
+            <div class="login-options-row">
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Lembrar de mim</label>
+                </div>
+
+
+            </div>
+
+            <!-- BOTÃO ENTRAR -->
+            <button type="submit" class="btn-primary-auth" id="btnEntrar">
+                Entrar
+            </button>
+
+
+        </form>
+
+        <!-- FOOTER -->
+        <p class="auth-footer-text">
+            Novo por aqui?
+            <a href="{% url 'core:cadastro' %}">Criar conta</a>
+        </p>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        lucide.createIcons();
+
+        // MOSTRAR E ESCONDER SENHA
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+
+        togglePassword.addEventListener('click', function () {
+
+            const mostrando = passwordInput.type === 'password';
+
+            passwordInput.type = mostrando ? 'text' : 'password';
+
+            togglePassword.innerHTML = mostrando
+                ? '<i data-lucide="eye-off"></i>'
+                : '<i data-lucide="eye"></i>';
+
+            togglePassword.setAttribute(
+                'aria-label',
+                mostrando ? 'Esconder senha' : 'Mostrar senha'
+            );
+
+            lucide.createIcons();
+        });
+
+        // MUDAR A COR DO BOTÃO
+        const usernameInput = document.getElementById('username');
+        const btnEntrar = document.getElementById('btnEntrar');
+
+        function verificarCampos() {
+
+            const preenchido =
+                usernameInput.value.trim() !== '' &&
+                passwordInput.value.trim() !== '';
+
+            btnEntrar.classList.toggle('is-ready', preenchido);
+        }
+
+        usernameInput.addEventListener('input', verificarCampos);
+        passwordInput.addEventListener('input', verificarCampos);
+
+        verificarCampos();
+    </script>
+
+</body>
+</html>
